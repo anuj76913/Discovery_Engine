@@ -9,7 +9,15 @@ import type { OpportunityAreasFile } from "./types";
 // implementation-plan.md's Phase 5 intro) isn't separately loaded here —
 // one data contract, and it keeps this off the edge-case 10.5 "large file
 // shipped to the client" path entirely.
-const DATA_PATH = path.join(process.cwd(), "..", "data", "processed", "opportunity_areas.json");
+//
+// Lives inside frontend/data/ (not ../data/processed/) so the frontend is a
+// self-contained deployable unit — a platform that builds only this
+// directory (Railway/Vercel with root directory = frontend, a Docker build
+// context scoped to frontend, etc.) has no access to sibling directories in
+// the repo. Re-sync this file from the pipeline's real output with
+// `npm run sync-data` (see package.json) whenever you want to publish a new
+// run's results.
+const DATA_PATH = path.join(process.cwd(), "data", "opportunity_areas.json");
 
 export async function loadOpportunityAreas(): Promise<OpportunityAreasFile | null> {
   let raw: string;

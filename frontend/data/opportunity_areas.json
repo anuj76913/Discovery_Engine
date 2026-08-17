@@ -1,0 +1,1087 @@
+{
+  "generated_at": "2026-08-17T04:21:49.175506+00:00",
+  "total_relevant_items": 209,
+  "sources_represented": [
+    "play_store"
+  ],
+  "low_sample_warning": false,
+  "note": null,
+  "methodology": {
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "ranking_formula": "score = mention_count * source_diversity_weight, where source_diversity_weight = distinct_sources_in_cluster / distinct_sources_in_corpus",
+    "corpus_scope": "Restricted to items where the LLM extraction flagged mentions_wishlist_or_save_for_later — not every purchase-decision-relevant item that was extracted."
+  },
+  "opportunity_areas": [
+    {
+      "mention_count": 43,
+      "pct_of_relevant_items": 0.2057,
+      "source_breakdown": {
+        "play_store": 43
+      },
+      "segment_breakdown": {
+        "fashion-conscious": 1,
+        "loyal_customer": 1,
+        "social_validation": 2
+      },
+      "top_segment_signals": [
+        "social_validation",
+        "fashion-conscious",
+        "loyal_customer"
+      ],
+      "decision_factor_breakdown": {
+        "price": 28,
+        "fit": 7,
+        "occasion": 7,
+        "styling": 16,
+        "reviews": 22,
+        "social_validation": 15
+      },
+      "journey_stage_breakdown": {
+        "browsing": 24,
+        "abandoned": 14,
+        "bought": 5
+      },
+      "cross_source_validation": false,
+      "score": 43.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Suddenly what just happened to the app?? All my saved/wishlisted items have disappeared!",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Just a small issue with the wishlist, when I scroll down, after a while it stops loading more items.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "just hate the laggy/slowy software of Flipkart/Amazon/etc etc....and only one problem that they know what we are going to buy(don't know how) and then increase the price of specific product,that is in our wishlist or cart",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "At times the wishlist doesn't integrate well from the website version to the app version, nevertheless a great shoppinng experience is what synonymous with Myntra.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "the wishlist button doesn't always work!",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Looks like Myntra wishlist has a limit",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "not have option to select all and delete in once",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "the wishlist on their app is horrible",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Technical issues and limitations hinder wishlist usage",
+      "description": "Users are experiencing difficulties with Myntra's wishlist feature, including issues with adding items, navigating the wishlist, and syncing between app and website versions. Some users have also reported that prices increase after adding items to their wishlist, and that the wishlist has a limited capacity, leading to a frustrating and inconvenient experience.",
+      "rank": 1
+    },
+    {
+      "mention_count": 28,
+      "pct_of_relevant_items": 0.134,
+      "source_breakdown": {
+        "play_store": 28
+      },
+      "segment_breakdown": {
+        "social_validation": 1
+      },
+      "top_segment_signals": [
+        "social_validation"
+      ],
+      "decision_factor_breakdown": {
+        "price": 11,
+        "reviews": 11,
+        "social_validation": 7,
+        "styling": 4,
+        "fit": 3,
+        "occasion": 3
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 24,
+        "browsing": 4
+      },
+      "cross_source_validation": false,
+      "score": 28.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "I am unable to open the wishlisted products... everytime when I try to open it shows popup 'something went wrong'",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "I can't save any product to my wishlist, I can't view images from the reviews, I can't add stuff to my cart",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Whenever I try to open my wishlist it just buffers over there for minutes and minutes..",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "I hardly do shopping from Myntra these days.",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Technical issues prevent wishlist access and management",
+      "description": "Users are experiencing technical difficulties when trying to access and manage their wishlists on Myntra, including issues with opening wishlisted products, saving products, viewing images, and adding items to cart, resulting in frustration and decreased shopping activity.",
+      "rank": 2
+    },
+    {
+      "mention_count": 24,
+      "pct_of_relevant_items": 0.1148,
+      "source_breakdown": {
+        "play_store": 24
+      },
+      "segment_breakdown": {
+        "price sensitivity": 1,
+        "young": 1,
+        "budget-conscious": 1
+      },
+      "top_segment_signals": [
+        "price sensitivity",
+        "young",
+        "budget-conscious"
+      ],
+      "decision_factor_breakdown": {
+        "price": 24,
+        "occasion": 4,
+        "styling": 4,
+        "fit": 2,
+        "reviews": 3,
+        "social_validation": 3
+      },
+      "journey_stage_breakdown": {
+        "bought": 2,
+        "browsing": 3,
+        "abandoned": 18,
+        "compared_alternatives": 1
+      },
+      "cross_source_validation": false,
+      "score": 24.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "if you add than price will be increased next day with same items",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "price would be DOUBLE after offers",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Prices varies all the time",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "whenever you add a product to your cart/wishlist they increase the price",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Increases the price of items that are on your wish list.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Price of products are highly increase when you are selected your wishlist product.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "this is faced during the current sale, and I have removed and again added the item but the price was wrong and higher",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "when ever I wishlist a product or added a product to cart, the price of the product is getting high after a day,",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Unpredictable price changes after wishlist addition deter purchases",
+      "description": "Users express frustration with prices increasing after adding items to their wishlist or cart, with some noting that prices can double or fluctuate significantly without notification, leading to mistrust and hesitation to complete purchases.",
+      "rank": 3
+    },
+    {
+      "mention_count": 15,
+      "pct_of_relevant_items": 0.0718,
+      "source_breakdown": {
+        "play_store": 15
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "fit": 2,
+        "occasion": 2,
+        "price": 7,
+        "reviews": 7,
+        "social_validation": 3,
+        "styling": 4
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 8,
+        "browsing": 6,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 15.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Good app overall. But recently it often keeps malfunctioning with \"Something went wrong\" message - I'm unable to add anything to wishlist or proceed with purchases when this happens.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "From past one week, every now and then while exploring products either the app will go haywire or on clicking any product the white screen will appear and will stay there and nothing will happen when you click back the app will crash and when we try to reopen the same all the search results are disappeared and eventhelast item put into wishlist is also disappeared.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "your applications hangs alot....",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "The app was fine in the beginning, I made many valuable purchases thanks to Myntra, but since a month I've not been able to click on anything.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "the app keeps freezing while searching the product and while going through the product reviews as well",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "App Malfunctions Block Seamless Browsing and Purchasing",
+      "description": "Users are experiencing issues with the Myntra app such as freezing, crashing, and malfunctioning, which prevents them from adding items to their wishlist, proceeding with purchases, and overall hinders their shopping experience, leading to frustration and disruption in their ability to complete transactions.",
+      "rank": 4
+    },
+    {
+      "mention_count": 15,
+      "pct_of_relevant_items": 0.0718,
+      "source_breakdown": {
+        "play_store": 15
+      },
+      "segment_breakdown": {
+        "fashion-conscious": 1,
+        "price-sensitive": 1
+      },
+      "top_segment_signals": [
+        "fashion-conscious",
+        "price-sensitive"
+      ],
+      "decision_factor_breakdown": {
+        "price": 12,
+        "reviews": 8,
+        "social_validation": 5,
+        "styling": 7,
+        "fit": 4,
+        "occasion": 5
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 4,
+        "browsing": 10,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 15.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "At the time of end of season all your wishlist will goes out of size",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Please can you have an option of removing the wishlisted items quicker? Or an option to remove all the out of stock items at once? My wishlist gets full so frequently because there's no auto delete for out of stock options and it's annoying, maybe I want to save a few recommendations for my friends or have things in wishlist for later but it quickly fills up only on this platform.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Also the out of stock products are really making am issue when scrolling down.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "I think they could improve more on the stocks of items",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "So many products are out of stock since a long time.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "solve this problem ASAP and mostly wishlist items are stock out",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Persistent out-of-stock items hinder wishlist management",
+      "description": "Users are frustrated with the frequent occurrence of out-of-stock items in their wishlist, which leads to clutter and makes it difficult to manage. They are seeking features such as auto-delete for out-of-stock items or the ability to remove them in bulk, as the current situation is annoying and affects their overall experience with the app.",
+      "rank": 5
+    },
+    {
+      "mention_count": 15,
+      "pct_of_relevant_items": 0.0718,
+      "source_breakdown": {
+        "play_store": 15
+      },
+      "segment_breakdown": {
+        "social_validation": 1
+      },
+      "top_segment_signals": [
+        "social_validation"
+      ],
+      "decision_factor_breakdown": {
+        "reviews": 4,
+        "social_validation": 2,
+        "price": 6,
+        "styling": 2,
+        "fit": 1,
+        "occasion": 1
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 7,
+        "browsing": 7,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 15.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Pathetic app. None of the icons r working in the app. I have to find ways to get to choose the products. To go to wishlist, orders and even search is not possible . Please sort out the issue at the earliest, it's very irritating.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "it's very slow... can't see my wishlist, my order",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Worst user experience ever. App is extremely slow and often lags.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "The only sad thing about Myntra app is, that it is sooooooooooo slow when you are browsing products from cart or wishlist.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "The app interface is extremely slow, especially wishlist section where the products once added is way tooooo difficult to remove or declutter them.",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Slow App Performance Hinders Wishlist Management",
+      "description": "Users experience frustration due to the slow performance of the Myntra app, which hinders their ability to manage their wishlist, access orders, and browse products, leading to a poor user experience and potential abandonment of the app.",
+      "rank": 6
+    },
+    {
+      "mention_count": 13,
+      "pct_of_relevant_items": 0.0622,
+      "source_breakdown": {
+        "play_store": 13
+      },
+      "segment_breakdown": {
+        "price sensitivity": 1
+      },
+      "top_segment_signals": [
+        "price sensitivity"
+      ],
+      "decision_factor_breakdown": {
+        "price": 10,
+        "reviews": 7,
+        "social_validation": 7,
+        "styling": 4,
+        "fit": 1,
+        "occasion": 3
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 9,
+        "browsing": 3,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 13.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Worst quality and defective products are delivered.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "all of them are showing unavailable delivery for my address",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "I buy few things from myntra the products are good but ever time I disappoint by the service and app I can't choose the option of cash on delivery and it is happening with me everytime I try to call in customer care but the number was not available and now the app is not showing my wishlist now I'm frustrated of this app",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Inconsistent and Unreliable Delivery Options Block Purchases",
+      "description": "Users are experiencing issues with Myntra's delivery services, including high delivery charges, inaccuracy in delivery dates, and lack of options to choose delivery dates and times. Some users have also reported receiving defective or wrong products, while others face unavailability of delivery options for their addresses. Additionally, the absence of cash on delivery options and unresponsive customer care further frustrate users, hindering their ability to complete purchases.",
+      "rank": 7
+    },
+    {
+      "mention_count": 10,
+      "pct_of_relevant_items": 0.0478,
+      "source_breakdown": {
+        "play_store": 10
+      },
+      "segment_breakdown": {
+        "price-sensitive": 1,
+        "customer-support-focused": 1
+      },
+      "top_segment_signals": [
+        "price-sensitive",
+        "customer-support-focused"
+      ],
+      "decision_factor_breakdown": {
+        "price": 7,
+        "reviews": 6,
+        "social_validation": 5,
+        "styling": 4,
+        "fit": 1,
+        "occasion": 1
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 8,
+        "browsing": 1,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 10.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Very Bad Experience....Ordered a product (Pre-paid) .... Application got deleted",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "I buy few things from myntra the products are good but ever time I disappoint by the service and app I can't choose the option of cash on delivery and it is happening with me everytime I try to call in customer care but the number was not available and now the app is not showing my wishlist now I'm frustrated of this app",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Inconsistent customer support hinders seamless shopping experience",
+      "description": "Users express frustration with Myntra's customer support, citing poor service, unavailability of customer care numbers, and issues with the app, such as deleted applications and missing wishlist options, leading to a disappointing overall experience despite satisfaction with the products themselves.",
+      "rank": 8
+    },
+    {
+      "mention_count": 8,
+      "pct_of_relevant_items": 0.0383,
+      "source_breakdown": {
+        "play_store": 8
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "price": 8,
+        "reviews": 5,
+        "social_validation": 2,
+        "occasion": 1,
+        "styling": 1
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 6,
+        "bought": 1,
+        "browsing": 1
+      },
+      "cross_source_validation": false,
+      "score": 8.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "What's the point of a coupon if I keep shopping for things that cost 6 times the coupon to avail the offer",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "High priced products and some products didn't even have any discounts.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Higher discount is shown in wishlist but upon adding to cart it shows lower discount.",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Misleading discount offers deter purchases",
+      "description": "Users express frustration with Myntra's coupon and discount system, citing issues such as misleading offers, lack of discounts on desired products, and discrepancies between advertised and actual discounts, ultimately hindering their willingness to make a purchase.",
+      "rank": 9
+    },
+    {
+      "mention_count": 7,
+      "pct_of_relevant_items": 0.0335,
+      "source_breakdown": {
+        "play_store": 7
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "price": 7,
+        "reviews": 3,
+        "social_validation": 3,
+        "styling": 3,
+        "occasion": 3
+      },
+      "journey_stage_breakdown": {
+        "bought": 3,
+        "abandoned": 2,
+        "browsing": 2
+      },
+      "cross_source_validation": false,
+      "score": 7.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Fast delivery, great range of products, great prices and sales",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Never trust any sale mentioned in the app.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Thanks for adding more varieties and shopping stores.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "when ever I wishlist a product or added a product to cart, the price of the product is getting high after a day,",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Why??? sale is still going to last 4 hours so why those offers a deducted???",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Distrust of sales and pricing strategies hinders purchase decisions",
+      "description": "Users express frustration and distrust towards Myntra's sales and pricing strategies, citing experiences where prices increase after adding items to cart or wishlist, and sales ending prematurely, leading to uncertainty and skepticism about the authenticity of sales and deals, ultimately hindering their willingness to make a purchase.",
+      "rank": 10
+    },
+    {
+      "mention_count": 7,
+      "pct_of_relevant_items": 0.0335,
+      "source_breakdown": {
+        "play_store": 7
+      },
+      "segment_breakdown": {
+        "loyal_customer": 2,
+        "price_sensitive": 1
+      },
+      "top_segment_signals": [
+        "loyal_customer",
+        "price_sensitive"
+      ],
+      "decision_factor_breakdown": {
+        "price": 5,
+        "reviews": 4,
+        "styling": 2,
+        "social_validation": 1
+      },
+      "journey_stage_breakdown": {
+        "browsing": 1,
+        "abandoned": 6
+      },
+      "cross_source_validation": false,
+      "score": 7.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [],
+      "opportunity_area": "Lack of trust in brand hinders purchase decisions",
+      "description": "Users express concerns about trusting the brand, indicating that trust issues can be a significant barrier to completing a purchase, while also showing affection and loyalty towards the brand they trust.",
+      "rank": 11
+    },
+    {
+      "mention_count": 7,
+      "pct_of_relevant_items": 0.0335,
+      "source_breakdown": {
+        "play_store": 7
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "price": 2,
+        "reviews": 2,
+        "social_validation": 2
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 7
+      },
+      "cross_source_validation": false,
+      "score": 7.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "The moment I would wishlist an item, the app prompts that I enter my phone number.",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "please change login process which asks for password while i already have otp",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "I can't reset my password because I don't have an email associated with my account.",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Login and Account Access Issues Hinder Wishlist Progression",
+      "description": "Users are experiencing difficulties with the login process, including password reset issues and being prompted for additional verification, such as phone numbers or emails, which is disrupting their ability to seamlessly progress from wishlisting to making a purchase.",
+      "rank": 12
+    },
+    {
+      "mention_count": 7,
+      "pct_of_relevant_items": 0.0335,
+      "source_breakdown": {
+        "play_store": 7
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "price": 5,
+        "reviews": 4,
+        "styling": 3,
+        "social_validation": 2,
+        "occasion": 1
+      },
+      "journey_stage_breakdown": {
+        "browsing": 3,
+        "abandoned": 3,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 7.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [],
+      "opportunity_area": "Poor User Experience Hinders Shopping",
+      "description": "Users express frustration with the app, citing a poor or bad user experience as a significant issue, implying that a smooth experience is expected but not always delivered, leading to potential hindrance in their shopping journey.",
+      "rank": 13
+    },
+    {
+      "mention_count": 7,
+      "pct_of_relevant_items": 0.0335,
+      "source_breakdown": {
+        "play_store": 7
+      },
+      "segment_breakdown": {
+        "fashion-conscious": 1,
+        "price-sensitive": 1
+      },
+      "top_segment_signals": [
+        "fashion-conscious",
+        "price-sensitive"
+      ],
+      "decision_factor_breakdown": {
+        "fit": 5,
+        "occasion": 5,
+        "price": 6,
+        "reviews": 5,
+        "social_validation": 5,
+        "styling": 5
+      },
+      "journey_stage_breakdown": {
+        "browsing": 5,
+        "abandoned": 2
+      },
+      "cross_source_validation": false,
+      "score": 7.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "some items, when they are out of stock or size unavailable",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Size Unavailability Blocks Purchase",
+      "description": "Users are unable to complete their purchases due to size unavailability of desired items, with many encountering issues related to fit and size, leading to frustration when their preferred size is out of stock.",
+      "rank": 14
+    },
+    {
+      "mention_count": 6,
+      "pct_of_relevant_items": 0.0287,
+      "source_breakdown": {
+        "play_store": 6
+      },
+      "segment_breakdown": {
+        "loyal_customer": 1
+      },
+      "top_segment_signals": [
+        "loyal_customer"
+      ],
+      "decision_factor_breakdown": {
+        "fit": 2,
+        "occasion": 2,
+        "price": 3,
+        "reviews": 3,
+        "social_validation": 1,
+        "styling": 4
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 5,
+        "browsing": 1
+      },
+      "cross_source_validation": false,
+      "score": 6.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Please restore the wishlist feature of sorting category wise items",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Difficulty with wishlist management due to UI/UX issues blocks purchase",
+      "description": "Users are experiencing frustration with the app's usability, specifically with the wishlist feature, citing issues with sorting and categorizing items, which hinders their ability to convert wishlist items to purchases.",
+      "rank": 15
+    },
+    {
+      "mention_count": 5,
+      "pct_of_relevant_items": 0.0239,
+      "source_breakdown": {
+        "play_store": 5
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "fit": 3,
+        "occasion": 3,
+        "price": 3,
+        "reviews": 4,
+        "social_validation": 3,
+        "styling": 3
+      },
+      "journey_stage_breakdown": {
+        "bought": 1,
+        "browsing": 3,
+        "abandoned": 1
+      },
+      "cross_source_validation": false,
+      "score": 5.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Please include a product review section",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "Worst quality and defective products are delivered.",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Lack of credible product reviews hinders purchase decisions",
+      "description": "Users are seeking a reliable product review section to inform their purchasing decisions, citing concerns over product quality and the desire for authentic feedback from other customers, with some expressing dissatisfaction with the quality of products received.",
+      "rank": 16
+    },
+    {
+      "mention_count": 4,
+      "pct_of_relevant_items": 0.0191,
+      "source_breakdown": {
+        "play_store": 4
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "price": 4,
+        "fit": 2,
+        "occasion": 2,
+        "reviews": 3,
+        "styling": 3,
+        "social_validation": 2
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 3,
+        "browsing": 1
+      },
+      "cross_source_validation": false,
+      "score": 4.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "not a singlr item was saved",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Inability to locate saved items hinders purchase",
+      "description": "Users express frustration with the difficulty in finding items they have saved, with some even stating that none of their saved items are visible, leading to a potential barrier in completing purchases.",
+      "rank": 17
+    },
+    {
+      "mention_count": 4,
+      "pct_of_relevant_items": 0.0191,
+      "source_breakdown": {
+        "play_store": 4
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "fit": 2,
+        "occasion": 2,
+        "price": 3,
+        "reviews": 3,
+        "social_validation": 3,
+        "styling": 3
+      },
+      "journey_stage_breakdown": {
+        "browsing": 2,
+        "abandoned": 1,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 4.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "What is the point of providing filter than when you want customers to only see items that you want to show them?",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Ineffective Filtering Hinders Product Discovery",
+      "description": "Users are expressing frustration with the filtering features on Myntra, stating that they are not working as expected, with some even feeling that the feature is being intentionally limited, making it difficult for them to find the products they want, leading to a poor shopping experience.",
+      "rank": 18
+    },
+    {
+      "mention_count": 4,
+      "pct_of_relevant_items": 0.0191,
+      "source_breakdown": {
+        "play_store": 4
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "price": 3,
+        "reviews": 4,
+        "styling": 3,
+        "fit": 2,
+        "occasion": 2,
+        "social_validation": 2
+      },
+      "journey_stage_breakdown": {
+        "bought": 2,
+        "abandoned": 1,
+        "browsing": 1
+      },
+      "cross_source_validation": false,
+      "score": 4.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [],
+      "opportunity_area": "Lack of detailed product information hinders purchase decisions",
+      "description": "Users are expressing frustration with the absence of sufficient product details, which is affecting their ability to make informed purchasing decisions. Phrases such as 'product detail issue', 'missing_product_info', and 'product_descriptions' highlight the need for more comprehensive product information to facilitate product discovery and conversion.",
+      "rank": 19
+    },
+    {
+      "mention_count": 4,
+      "pct_of_relevant_items": 0.0191,
+      "source_breakdown": {
+        "play_store": 4
+      },
+      "segment_breakdown": {
+        "fashion-conscious": 1
+      },
+      "top_segment_signals": [
+        "fashion-conscious"
+      ],
+      "decision_factor_breakdown": {
+        "price": 2,
+        "fit": 2,
+        "occasion": 2,
+        "reviews": 1,
+        "social_validation": 1,
+        "styling": 2
+      },
+      "journey_stage_breakdown": {
+        "browsing": 4
+      },
+      "cross_source_validation": false,
+      "score": 4.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "1. Add Sort option for Wishlist Items 2. Custom folders creation option for Wishlist Items",
+          "source": "play_store",
+          "url": null
+        },
+        {
+          "quote": "I would like to suggest an update to add filter and sort options in the wishlist.",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Lack of sorting and filtering options hinders wishlist management",
+      "description": "Users are requesting the addition of sort and filter options in the wishlist section of the Myntra app to better manage their saved items, with some also suggesting custom folder creation for more organized wishlists.",
+      "rank": 20
+    },
+    {
+      "mention_count": 4,
+      "pct_of_relevant_items": 0.0191,
+      "source_breakdown": {
+        "play_store": 4
+      },
+      "segment_breakdown": {
+        "price_sensitive": 1
+      },
+      "top_segment_signals": [
+        "price_sensitive"
+      ],
+      "decision_factor_breakdown": {
+        "price": 4,
+        "reviews": 4,
+        "social_validation": 3,
+        "styling": 2,
+        "occasion": 1
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 2,
+        "browsing": 1,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 4.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [],
+      "opportunity_area": "Limited or Unreliable Payment Options Discourage Purchases",
+      "description": "Users express frustration with payment issues, indicating that problems with payment options or payment failures are hindering their ability to complete purchases on Myntra, suggesting a need for more reliable and diverse payment methods.",
+      "rank": 21
+    },
+    {
+      "mention_count": 4,
+      "pct_of_relevant_items": 0.0191,
+      "source_breakdown": {
+        "play_store": 4
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "price": 4,
+        "reviews": 2,
+        "social_validation": 1,
+        "styling": 2
+      },
+      "journey_stage_breakdown": {
+        "browsing": 3,
+        "bought": 1
+      },
+      "cross_source_validation": false,
+      "score": 4.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "Give option to save favourite filters and just ask if you want to remove out of stock products on Top of wishlist instead of loading it again and again, fix the forever loading bug.",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Slow loading hinders wishlist browsing and filtering",
+      "description": "Users experience frustration with the slow loading of wishlist pages, particularly when applying filters or removing out-of-stock products, which leads to a poor browsing experience and encourages them to suggest improvements such as saving favorite filters to alleviate the issue.",
+      "rank": 22
+    },
+    {
+      "mention_count": 3,
+      "pct_of_relevant_items": 0.0144,
+      "source_breakdown": {
+        "play_store": 3
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "fit": 1,
+        "occasion": 1,
+        "price": 1,
+        "styling": 1
+      },
+      "journey_stage_breakdown": {
+        "abandoned": 2,
+        "browsing": 1
+      },
+      "cross_source_validation": false,
+      "score": 3.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "But the item just doesn't show in my Order history?",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Inconsistent order history display blocks purchase tracking",
+      "description": "Users are experiencing issues with their order history not being accurately displayed, leading to confusion and difficulty in tracking their purchases, as evidenced by complaints about lost order history and order history not showing items.",
+      "rank": 23
+    },
+    {
+      "mention_count": 3,
+      "pct_of_relevant_items": 0.0144,
+      "source_breakdown": {
+        "play_store": 3
+      },
+      "segment_breakdown": {},
+      "top_segment_signals": [],
+      "decision_factor_breakdown": {
+        "fit": 1,
+        "occasion": 1,
+        "price": 2,
+        "reviews": 2,
+        "social_validation": 2,
+        "styling": 2
+      },
+      "journey_stage_breakdown": {
+        "browsing": 2,
+        "abandoned": 1
+      },
+      "cross_source_validation": false,
+      "score": 3.0,
+      "source_diversity_weight": 1.0,
+      "sample_quotes": [
+        {
+          "quote": "In the wishlist section their was a feature to sort you items by product type",
+          "source": "play_store",
+          "url": null
+        }
+      ],
+      "opportunity_area": "Removed features hinder wishlist management",
+      "description": "Users are expressing dissatisfaction with the removal of certain features, such as the ability to sort wishlist items by product type, which is causing inconvenience in managing their wishlists and potentially affecting their purchasing decisions.",
+      "rank": 24
+    }
+  ]
+}
