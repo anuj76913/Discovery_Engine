@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Myntra Discovery Engine - Source Breakdown</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-container": "#57657b",
+                        "on-primary-fixed": "#400011",
+                        "on-background": "#0b1c30",
+                        "inverse-primary": "#ffb2ba",
+                        "on-primary-fixed-variant": "#910031",
+                        "on-tertiary-container": "#fbfdff",
+                        "surface-tint": "#bd0043",
+                        "outline-variant": "#e3bdc0",
+                        "outline": "#8f6f72",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#727577",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "surface-dim": "#cbdbf5",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#ffb2ba",
+                        "on-tertiary-fixed": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#595c5e",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#515f74",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#e0e3e5",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "secondary-fixed": "#d5e3fd",
+                        "inverse-surface": "#213145",
+                        "primary-fixed": "#ffd9dc",
+                        "on-surface-variant": "#5b4042",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "secondary-container": "#d5e3fd",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#b90041",
+                        "primary-container": "#df2457",
+                        "surface-container": "#e5eeff",
+                        "error": "#ba1a1a"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "grid-columns": "12",
+                        "stack-lg": "32px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "section-label": ["Hanken Grotesk"],
+                        "body-regular": ["Inter"],
+                        "data-tabular": ["JetBrains Mono"]
+                    },
+                    fontSize: {
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "section-label": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "800" }],
+                        "body-regular": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "data-tabular": ["13px", { lineHeight: "18px", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-regular text-body-regular antialiased">
+<!-- TopAppBar Component from JSON -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-inverse-primary w-full flex flex-col pt-stack-lg px-margin-desktop max-w-7xl mx-auto z-10 relative">
+<div class="flex items-center justify-between pb-stack-md">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-2xl" data-icon="insights">insights</span>
+<div class="flex flex-col">
+<h1 class="text-headline-md font-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Myntra Wishlist-to-Purchase Discovery Engine</h1>
+<span class="text-body-regular font-body-regular text-on-surface-variant">Strategic Intelligence Dashboard</span>
+</div>
+</div>
+<button class="hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined text-2xl" data-icon="light_mode">light_mode</span>
+</button>
+</div>
+<!-- NavigationDrawer Component integrated as Horizontal Nav per prompt layout -->
+<nav class="flex space-x-gutter border-b border-outline-variant w-full mt-stack-md relative z-20">
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="equalizer">equalizer</span>
+<span>Ranked Areas</span>
+</a>
+<a class="flex items-center gap-2 text-primary font-bold border-b-2 border-primary mb-[-1px] py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" data-weight="fill">analytics</span>
+<span>Source Breakdown</span>
+</a>
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span>Segment Cross-Tab</span>
+</a>
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Methodology</span>
+</a>
+</nav>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-margin-desktop py-stack-lg flex gap-gutter">
+<!-- Filter Sidebar -->
+<aside class="w-64 flex-shrink-0 flex flex-col gap-stack-lg">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-md shadow-sm">
+<h3 class="text-section-label font-section-label text-secondary uppercase mb-stack-md">Data Filters</h3>
+<div class="space-y-stack-md">
+<div>
+<label class="text-body-regular font-body-regular font-semibold block mb-stack-sm text-on-surface">Timeframe</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-sm">calendar_today</span>
+<select class="w-full bg-surface border-outline-variant rounded-md pl-10 pr-4 py-2 text-body-regular focus:ring-2 focus:ring-primary focus:border-primary appearance-none">
+<option>Last 30 Days</option>
+<option>Last 90 Days</option>
+<option>YTD</option>
+</select>
+</div>
+</div>
+<div>
+<label class="text-body-regular font-body-regular font-semibold block mb-stack-sm text-on-surface">Category</label>
+<div class="space-y-2">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Womenswear</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Menswear</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" type="checkbox"/>
+<span class="group-hover:text-primary transition-colors">Footwear</span>
+</label>
+</div>
+</div>
+</div>
+<button class="mt-stack-lg w-full bg-surface-container-high text-primary font-bold py-2 rounded border border-outline-variant hover:bg-surface-dim transition-colors">
+                    Reset Filters
+                </button>
+</div>
+<!-- Channel Legend -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-md shadow-sm">
+<h3 class="text-section-label font-section-label text-secondary uppercase mb-stack-md flex items-center justify-between">
+                    Channel Legend
+                    <span class="material-symbols-outlined text-sm cursor-help text-tertiary-container" title="Data source distribution">info</span>
+</h3>
+<ul class="space-y-3">
+<li class="flex items-center justify-between text-body-regular">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary inline-block"></span>
+<span>Play Store Reviews</span>
+</div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant">45%</span>
+</li>
+<li class="flex items-center justify-between text-body-regular">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary inline-block"></span>
+<span>App Store Reviews</span>
+</div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant">28%</span>
+</li>
+<li class="flex items-center justify-between text-body-regular">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-tertiary-fixed-dim inline-block"></span>
+<span>Reddit (r/IndianFashion)</span>
+</div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant">15%</span>
+</li>
+<li class="flex items-center justify-between text-body-regular">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-surface-container-highest inline-block"></span>
+<span>Twitter Mentions</span>
+</div>
+<span class="text-data-tabular font-data-tabular text-on-surface-variant">12%</span>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Main Chart Area -->
+<section class="flex-grow flex flex-col gap-stack-lg">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-lg shadow-sm hover:border-outline transition-colors relative group">
+<div class="absolute inset-y-0 left-0 w-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity rounded-l-lg"></div>
+<div class="flex justify-between items-start mb-stack-lg">
+<div>
+<h2 class="text-headline-md font-headline-md font-bold text-on-surface">Opportunity Area Source Origin</h2>
+<p class="text-body-regular font-body-regular text-on-surface-variant mt-1">Relative distribution of user mentions across monitored channels</p>
+</div>
+<!-- Segmented Control -->
+<div class="flex bg-surface-container-low p-1 rounded-full border border-outline-variant">
+<button class="px-4 py-1 text-section-label font-section-label font-bold rounded-full bg-white text-primary shadow-sm">Relative %</button>
+<button class="px-4 py-1 text-section-label font-section-label text-on-surface-variant hover:text-on-surface rounded-full transition-colors">Raw Count</button>
+</div>
+</div>
+<!-- Chart Container -->
+<div class="w-full flex flex-col gap-stack-md">
+<!-- Chart Header -->
+<div class="flex items-center pb-2 border-b border-outline-variant text-section-label font-section-label text-secondary uppercase tracking-wider">
+<div class="w-1/4">Opportunity Area</div>
+<div class="w-3/4 flex justify-between px-2">
+<span>0%</span>
+<span>25%</span>
+<span>50%</span>
+<span>75%</span>
+<span>100%</span>
+</div>
+</div>
+<!-- Row 1 -->
+<div class="flex items-center group/row cursor-pointer">
+<div class="w-1/4 pr-4">
+<span class="font-semibold text-on-surface group-hover/row:text-primary transition-colors block truncate" title="Wishlist Sync Issues">Wishlist Sync Issues</span>
+<span class="text-data-tabular font-data-tabular text-xs text-on-surface-variant">n=12,450</span>
+</div>
+<div class="w-3/4 h-8 flex rounded overflow-hidden shadow-sm">
+<div class="bg-primary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 55%" title="Play Store: 55%">55%</div>
+<div class="bg-tertiary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 30%" title="App Store: 30%">30%</div>
+<div class="bg-tertiary-fixed-dim h-full transition-all duration-500 ease-out" style="width: 10%" title="Reddit: 10%"></div>
+<div class="bg-surface-container-highest h-full transition-all duration-500 ease-out" style="width: 5%" title="Twitter: 5%"></div>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="flex items-center group/row cursor-pointer">
+<div class="w-1/4 pr-4">
+<span class="font-semibold text-on-surface group-hover/row:text-primary transition-colors block truncate" title="Price Drop Notifications">Price Drop Notifications</span>
+<span class="text-data-tabular font-data-tabular text-xs text-on-surface-variant">n=8,210</span>
+</div>
+<div class="w-3/4 h-8 flex rounded overflow-hidden shadow-sm">
+<div class="bg-primary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 40%" title="Play Store: 40%">40%</div>
+<div class="bg-tertiary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 25%" title="App Store: 25%">25%</div>
+<div class="bg-tertiary-fixed-dim h-full flex items-center justify-center text-on-surface text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 25%" title="Reddit: 25%">25%</div>
+<div class="bg-surface-container-highest h-full transition-all duration-500 ease-out" style="width: 10%" title="Twitter: 10%"></div>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="flex items-center group/row cursor-pointer">
+<div class="w-1/4 pr-4">
+<span class="font-semibold text-on-surface group-hover/row:text-primary transition-colors block truncate" title="Out of Stock Clarity">Out of Stock Clarity</span>
+<span class="text-data-tabular font-data-tabular text-xs text-on-surface-variant">n=6,780</span>
+</div>
+<div class="w-3/4 h-8 flex rounded overflow-hidden shadow-sm">
+<div class="bg-primary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 35%" title="Play Store: 35%">35%</div>
+<div class="bg-tertiary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 20%" title="App Store: 20%">20%</div>
+<div class="bg-tertiary-fixed-dim h-full transition-all duration-500 ease-out" style="width: 15%" title="Reddit: 15%"></div>
+<div class="bg-surface-container-highest h-full flex items-center justify-center text-on-surface text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 30%" title="Twitter: 30%">30%</div>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="flex items-center group/row cursor-pointer">
+<div class="w-1/4 pr-4">
+<span class="font-semibold text-on-surface group-hover/row:text-primary transition-colors block truncate" title="Cart Migration UX">Cart Migration UX</span>
+<span class="text-data-tabular font-data-tabular text-xs text-on-surface-variant">n=4,120</span>
+</div>
+<div class="w-3/4 h-8 flex rounded overflow-hidden shadow-sm">
+<div class="bg-primary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 60%" title="Play Store: 60%">60%</div>
+<div class="bg-tertiary h-full flex items-center justify-center text-white text-xs font-data-tabular transition-all duration-500 ease-out" style="width: 35%" title="App Store: 35%">35%</div>
+<div class="bg-tertiary-fixed-dim h-full transition-all duration-500 ease-out" style="width: 5%" title="Reddit: 5%"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Component from JSON -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface border-t border-outline-variant w-full mt-auto flex justify-between items-center px-margin-desktop py-stack-md">
+<span class="text-section-label font-section-label text-on-surface font-bold">© 2024 Myntra Discovery Engine. For internal research purposes only.</span>
+<div class="flex gap-stack-lg">
+<a class="text-section-label font-section-label text-primary hover:underline transition-opacity" href="#">Documentation</a>
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline transition-opacity" href="#">Privacy Policy</a>
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline transition-opacity" href="#">Internal Support</a>
+</div>
+</footer>
+</body></html>

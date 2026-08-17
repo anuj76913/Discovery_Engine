@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Myntra Discovery Engine - Methodology</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-container": "#57657b",
+                        "on-primary-fixed": "#400011",
+                        "on-background": "#0b1c30",
+                        "inverse-primary": "#ffb2ba",
+                        "on-primary-fixed-variant": "#910031",
+                        "on-tertiary-container": "#fbfdff",
+                        "surface-tint": "#bd0043",
+                        "outline-variant": "#e3bdc0",
+                        "outline": "#8f6f72",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#727577",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "surface-dim": "#cbdbf5",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#ffb2ba",
+                        "on-tertiary-fixed": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#595c5e",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#515f74",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#e0e3e5",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "secondary-fixed": "#d5e3fd",
+                        "inverse-surface": "#213145",
+                        "primary-fixed": "#ffd9dc",
+                        "on-surface-variant": "#5b4042",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "secondary-container": "#d5e3fd",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#b90041",
+                        "primary-container": "#df2457",
+                        "surface-container": "#e5eeff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "grid-columns": "12",
+                        "stack-lg": "32px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "section-label": ["Hanken Grotesk"],
+                        "body-regular": ["Inter"],
+                        "data-tabular": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "section-label": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "body-regular": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-regular min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-inverse-primary w-full top-0 z-50">
+<div class="flex flex-col pt-stack-lg px-margin-desktop max-w-7xl mx-auto">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-headline-md font-headline-md" data-icon="insights">insights</span>
+<h1 class="text-headline-md font-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Myntra Wishlist-to-Purchase Discovery Engine</h1>
+</div>
+<button class="hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined text-headline-md font-headline-md" data-icon="light_mode">light_mode</span>
+</button>
+</div>
+<!-- NavigationDrawer (Horizontal Tabs implementation based on TopAppBar location) -->
+<nav aria-label="Navigation" class="flex space-x-gutter px-margin-desktop mt-stack-lg border-b border-outline-variant w-full">
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="equalizer">equalizer</span>
+<span class="text-body-regular font-body-regular">Ranked Areas</span>
+</a>
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-body-regular font-body-regular">Source Breakdown</span>
+</a>
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="text-body-regular font-body-regular">Segment Cross-Tab</span>
+</a>
+<a aria-current="page" class="flex items-center gap-2 text-primary font-bold border-b-2 border-primary mb-[-1px] py-stack-md hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-body-regular font-body-regular">Methodology</span>
+</a>
+</nav>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow max-w-7xl mx-auto w-full px-margin-desktop py-stack-lg grid grid-cols-12 gap-gutter">
+<!-- Left Sidebar: Pipeline Explanation -->
+<aside class="col-span-12 md:col-span-4 lg:col-span-3 flex flex-col gap-stack-lg">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-md sticky top-stack-lg">
+<h2 class="text-section-label font-section-label uppercase tracking-widest text-secondary mb-stack-md">Data Pipeline</h2>
+<div class="flex flex-col gap-stack-md relative">
+<!-- Vertical Line connecting steps -->
+<div class="absolute left-[15px] top-[24px] bottom-[24px] w-[2px] bg-outline-variant z-0"></div>
+<!-- Step 1 -->
+<div class="flex items-start gap-stack-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="database">database</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] font-bold text-on-surface">Ingestion</h3>
+<p class="text-body-regular text-on-surface-variant mt-1 text-sm">Aggregation of raw wishlist and cart transfer data streams.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex items-start gap-stack-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="filter_alt">filter_alt</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] font-bold text-on-surface">Sanitization</h3>
+<p class="text-body-regular text-on-surface-variant mt-1 text-sm">Removal of bot activity, duplicates, and anomalous spike events.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex items-start gap-stack-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="account_tree">account_tree</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] font-bold text-on-surface">Categorization</h3>
+<p class="text-body-regular text-on-surface-variant mt-1 text-sm">Mapping SKUs to standardized micro-trends and parent categories.</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex items-start gap-stack-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="calculate">calculate</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] font-bold text-on-surface">Scoring</h3>
+<p class="text-body-regular text-on-surface-variant mt-1 text-sm">Application of the proprietary Ranking Score Formula.</p>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="flex items-start gap-stack-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-outline-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="insights">insights</span>
+</div>
+<div>
+<h3 class="font-headline-md text-[16px] font-bold text-on-surface">Projection</h3>
+<p class="text-body-regular text-on-surface-variant mt-1 text-sm">Final dashboard rendering and insight generation.</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Main Content: Documentation -->
+<article class="col-span-12 md:col-span-8 lg:col-span-9 flex flex-col gap-stack-lg max-w-3xl">
+<section>
+<h2 class="text-display-lg font-display-lg text-on-surface mb-stack-md">Engine Methodology</h2>
+<p class="text-body-regular text-on-surface-variant text-lg leading-relaxed mb-stack-md">
+                    This document details the analytical framework underpinning the Myntra Wishlist-to-Purchase Discovery Engine. It outlines the scope of data analyzed, the specific mathematical models used to evaluate trend velocity, and the necessary caveats when interpreting the dashboard metrics.
+                </p>
+</section>
+<div class="h-px w-full bg-outline-variant"></div>
+<section>
+<div class="flex items-center gap-2 mb-stack-md">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+<h3 class="text-headline-md font-headline-md text-on-surface">Ranking Score Formula</h3>
+</div>
+<p class="text-body-regular text-on-surface-variant mb-stack-md">
+                    The core of the Discovery Engine is the 'Intent Velocity Score' (IVS). This metric aims to surface items that are rapidly moving from casual consideration (Wishlist) to active acquisition (Cart/Purchase), prioritizing recent momentum over historical bulk volume.
+                </p>
+<!-- Code Block / Formula Emphasis -->
+<div class="bg-inverse-surface text-inverse-on-surface rounded-lg p-stack-md font-data-tabular text-data-tabular shadow-sm mb-stack-md relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-tertiary-fixed-dim text-xs uppercase tracking-wider">Formula / Algorithm</span>
+<button aria-label="Copy code" class="text-tertiary-fixed-dim hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+<code class="block whitespace-pre-wrap text-surface-container-high leading-relaxed">
+<span class="text-primary-fixed-dim">IVS</span> = ( <span class="text-secondary-fixed-dim">W_velocity</span> * 0.4 ) + ( <span class="text-surface-container-highest">C_conversion_rate</span> * 0.6 ) * <span class="text-outline-variant">Decay_Factor</span>
+<span class="text-tertiary-fixed-dim">// Where:</span>
+<span class="text-secondary-fixed-dim">W_velocity</span>        = (Current_Week_Wishlists - Prev_Week_Wishlists) / Prev_Week_Wishlists
+<span class="text-surface-container-highest">C_conversion_rate</span> = Items_Moved_To_Cart / Total_Wishlisted_Items
+<span class="text-outline-variant">Decay_Factor</span>      = e^(-λt) <span class="text-tertiary-fixed-dim">/* Penalizes older trends */</span>
+</code>
+</div>
+<p class="text-body-regular text-on-surface-variant">
+                    By weighting Cart Conversion higher than raw Wishlist Velocity, the engine filters out aspirational "window shopping" trends and focuses on actionable consumer intent.
+                </p>
+</section>
+<div class="h-px w-full bg-outline-variant"></div>
+<section>
+<div class="flex items-center gap-2 mb-stack-md">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+<h3 class="text-headline-md font-headline-md text-on-surface">Corpus Scope</h3>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-md">
+<ul class="list-none space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1 text-[20px]" data-icon="date_range">date_range</span>
+<div>
+<strong class="text-on-surface font-headline-md text-[15px]">Temporal Scope</strong>
+<p class="text-body-regular text-on-surface-variant mt-1">Data is processed on a rolling 90-day window, with daily batch updates running at 02:00 UTC.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1 text-[20px]" data-icon="category">category</span>
+<div>
+<strong class="text-on-surface font-headline-md text-[15px]">Category Inclusion</strong>
+<p class="text-body-regular text-on-surface-variant mt-1">Currently limited to Women's Western Wear, Men's Activewear, and Accessories. Ethnic wear models are in beta.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary mt-1 text-[20px]" data-icon="group">group</span>
+<div>
+<strong class="text-on-surface font-headline-md text-[15px]">User Segmentation</strong>
+<p class="text-body-regular text-on-surface-variant mt-1">Metrics are aggregated from registered users only to ensure cross-device consistency and intent validity.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section class="mb-stack-lg">
+<div class="flex items-center gap-2 mb-stack-md">
+<span class="w-1 h-6 bg-primary rounded-full"></span>
+<h3 class="text-headline-md font-headline-md text-on-surface">Caveats &amp; Limitations</h3>
+</div>
+<div class="bg-surface-bright border-l-4 border-outline p-stack-md rounded-r-lg">
+<p class="text-body-regular text-on-surface-variant mb-2">
+                        Users of this dashboard should be aware of the following limitations when interpreting trend data:
+                    </p>
+<ul class="list-disc pl-5 space-y-2 text-body-regular text-on-surface-variant">
+<li><strong>Sale Event Distortion:</strong> Major promotional events (e.g., EORS) artificially inflate 'Wishlist' velocity as users pre-load carts. The algorithm applies a smoothing function during these periods, but short-term anomalies may remain.</li>
+<li><strong>Stock-Out Censoring:</strong> High-demand items that rapidly stock out will show a sudden drop in Cart Conversion. The current model does not fully adjust for unfulfillable intent.</li>
+<li><strong>Micro-Trend Latency:</strong> Hyper-niche trends with very low initial volume may take up to 72 hours to breach the statistical significance threshold required for dashboard rendering.</li>
+</ul>
+</div>
+</section>
+</article>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface w-full mt-auto border-t border-outline-variant">
+<div class="flex justify-between items-center px-margin-desktop py-stack-md max-w-7xl mx-auto w-full">
+<span class="text-section-label font-section-label text-on-surface font-bold">© 2024 Myntra Discovery Engine. For internal research purposes only.</span>
+<div class="flex space-x-6">
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline" href="#">Documentation</a>
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline" href="#">Privacy Policy</a>
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline" href="#">Internal Support</a>
+</div>
+</div>
+</footer>
+</body></html>

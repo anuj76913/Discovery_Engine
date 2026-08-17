@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Myntra Discovery Engine - Segment Cross-Tab</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&amp;family=Inter:wght@400&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-container": "#57657b",
+                        "on-primary-fixed": "#400011",
+                        "on-background": "#0b1c30",
+                        "inverse-primary": "#ffb2ba",
+                        "on-primary-fixed-variant": "#910031",
+                        "on-tertiary-container": "#fbfdff",
+                        "surface-tint": "#bd0043",
+                        "outline-variant": "#e3bdc0",
+                        "outline": "#8f6f72",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#727577",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "surface-dim": "#cbdbf5",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#ffb2ba",
+                        "on-tertiary-fixed": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#595c5e",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#515f74",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#e0e3e5",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "secondary-fixed": "#d5e3fd",
+                        "inverse-surface": "#213145",
+                        "primary-fixed": "#ffd9dc",
+                        "on-surface-variant": "#5b4042",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "secondary-container": "#d5e3fd",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#b90041",
+                        "primary-container": "#df2457",
+                        "surface-container": "#e5eeff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "grid-columns": "12",
+                        "stack-lg": "32px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "section-label": ["Hanken Grotesk"],
+                        "body-regular": ["Inter"],
+                        "data-tabular": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "section-label": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "body-regular": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Minimal custom CSS for scrollbar mostly, relying on Tailwind for rest */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-regular min-h-screen flex flex-col">
+<!-- TopAppBar from JSON -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-inverse-primary w-full docked top flex flex-col pt-stack-lg px-margin-desktop max-w-7xl mx-auto">
+<div class="flex items-center justify-between w-full pb-stack-md no-border">
+<div class="flex items-center gap-stack-md">
+<span aria-hidden="true" class="material-symbols-outlined text-primary text-2xl">insights</span>
+<h1 class="text-headline-md font-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight">Myntra Wishlist-to-Purchase Discovery Engine</h1>
+</div>
+<button aria-label="Toggle Light/Dark Mode" class="hover:text-primary transition-colors duration-200 opacity-80">
+<span aria-hidden="true" class="material-symbols-outlined text-2xl">light_mode</span>
+</button>
+</div>
+</header>
+<!-- NavigationDrawer (Adapted to Horizontal sub-nav for desktop) from JSON -->
+<nav class="bg-surface dark:bg-surface text-primary dark:text-inverse-primary text-body-regular font-body-regular full-width border-b border-outline-variant flat flex space-x-gutter px-margin-desktop mt-stack-lg w-full max-w-7xl mx-auto hide-scrollbar overflow-x-auto">
+<!-- Tab 1: Inactive -->
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]">equalizer</span>
+<span>Ranked Areas</span>
+</a>
+<!-- Tab 2: Inactive -->
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]">analytics</span>
+<span>Source Breakdown</span>
+</a>
+<!-- Tab 3: Active (Segment Cross-Tab) -->
+<a class="flex items-center gap-2 text-primary font-bold border-b-2 border-primary mb-[-1px] py-stack-md opacity-80" href="#">
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]">grid_view</span>
+<span>Segment Cross-Tab</span>
+</a>
+<!-- Tab 4: Inactive -->
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all" href="#">
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]">description</span>
+<span>Methodology</span>
+</a>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-margin-desktop py-stack-lg flex flex-col gap-stack-lg">
+<!-- Header & Controls -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-stack-md">
+<div>
+<h2 class="text-display-lg font-display-lg text-on-surface">Audience Matrix</h2>
+<p class="text-body-regular font-body-regular text-on-surface-variant mt-2 max-w-2xl">
+                    Cross-referencing high-friction wishlist areas against primary user segments. Color intensity indicates mention volume density.
+                </p>
+</div>
+<!-- Filter Bar -->
+<div class="w-full md:w-auto relative">
+<span aria-hidden="true" class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-tertiary-container">search</span>
+<input class="w-full md:w-80 pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline rounded-DEFAULT text-body-regular font-body-regular text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" placeholder="Filter opportunity areas..." type="text"/>
+</div>
+</div>
+<!-- Data Matrix Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr>
+<th class="p-3 border-b border-outline-variant text-section-label font-section-label text-secondary w-[250px]">Opportunity Area</th>
+<th class="p-3 border-b border-outline-variant text-section-label font-section-label text-secondary text-center">Fashion Conscious</th>
+<th class="p-3 border-b border-outline-variant text-section-label font-section-label text-secondary text-center">Deal Hunters</th>
+<th class="p-3 border-b border-outline-variant text-section-label font-section-label text-secondary text-center">Brand Loyalists</th>
+<th class="p-3 border-b border-outline-variant text-section-label font-section-label text-secondary text-center">Occasional</th>
+<th class="p-3 border-b border-outline-variant text-section-label font-section-label text-on-surface text-center bg-surface-bright">Total Mentions</th>
+</tr>
+</thead>
+<tbody class="text-body-regular font-body-regular">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 border-b border-surface-container-high text-on-surface font-medium border-l-2 border-transparent group-hover:border-primary transition-all">Sizing Inconsistencies</td>
+<!-- Heatmap Cells: Low to High mapped to Primary colors -->
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary text-on-primary font-data-tabular text-data-tabular">1,245</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed-dim text-on-primary-fixed-variant font-data-tabular text-data-tabular">842</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-container text-on-primary-container font-data-tabular text-data-tabular">950</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed text-on-primary-fixed font-data-tabular text-data-tabular">310</div></td>
+<td class="p-3 border-b border-surface-container-high text-center font-data-tabular text-data-tabular font-bold bg-surface-bright">3,347</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 border-b border-surface-container-high text-on-surface font-medium border-l-2 border-transparent group-hover:border-primary transition-all">Fabric Quality vs Image</td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-container text-on-primary-container font-data-tabular text-data-tabular">1,102</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-surface-container text-on-surface font-data-tabular text-data-tabular">145</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed-dim text-on-primary-fixed-variant font-data-tabular text-data-tabular">760</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-surface-container text-on-surface font-data-tabular text-data-tabular">220</div></td>
+<td class="p-3 border-b border-surface-container-high text-center font-data-tabular text-data-tabular font-bold bg-surface-bright">2,227</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 border-b border-surface-container-high text-on-surface font-medium border-l-2 border-transparent group-hover:border-primary transition-all">Price Drop Alert Delays</td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed text-on-primary-fixed font-data-tabular text-data-tabular">450</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary text-on-primary font-data-tabular text-data-tabular">1,890</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-surface-container text-on-surface font-data-tabular text-data-tabular">120</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed-dim text-on-primary-fixed-variant font-data-tabular text-data-tabular">540</div></td>
+<td class="p-3 border-b border-surface-container-high text-center font-data-tabular text-data-tabular font-bold bg-surface-bright">3,000</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 border-b border-surface-container-high text-on-surface font-medium border-l-2 border-transparent group-hover:border-primary transition-all">Delivery Estimate Accuracy</td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed-dim text-on-primary-fixed-variant font-data-tabular text-data-tabular">620</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed-dim text-on-primary-fixed-variant font-data-tabular text-data-tabular">580</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed text-on-primary-fixed font-data-tabular text-data-tabular">490</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed text-on-primary-fixed font-data-tabular text-data-tabular">380</div></td>
+<td class="p-3 border-b border-surface-container-high text-center font-data-tabular text-data-tabular font-bold bg-surface-bright">2,070</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="p-3 border-b border-surface-container-high text-on-surface font-medium border-l-2 border-transparent group-hover:border-primary transition-all">Out of Stock on Cart Addition</td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-container text-on-primary-container font-data-tabular text-data-tabular">980</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-container text-on-primary-container font-data-tabular text-data-tabular">1,050</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed-dim text-on-primary-fixed-variant font-data-tabular text-data-tabular">810</div></td>
+<td class="p-2 border-b border-surface-container-high"><div class="w-full h-full p-2 text-center rounded bg-primary-fixed text-on-primary-fixed font-data-tabular text-data-tabular">420</div></td>
+<td class="p-3 border-b border-surface-container-high text-center font-data-tabular text-data-tabular font-bold bg-surface-bright">3,260</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td class="p-3 text-section-label font-section-label text-secondary pt-stack-md border-t border-outline">Segment Totals</td>
+<td class="p-3 text-center font-data-tabular text-data-tabular font-bold text-on-surface pt-stack-md border-t border-outline">4,397</td>
+<td class="p-3 text-center font-data-tabular text-data-tabular font-bold text-on-surface pt-stack-md border-t border-outline">4,507</td>
+<td class="p-3 text-center font-data-tabular text-data-tabular font-bold text-on-surface pt-stack-md border-t border-outline">3,130</td>
+<td class="p-3 text-center font-data-tabular text-data-tabular font-bold text-on-surface pt-stack-md border-t border-outline">1,870</td>
+<td class="p-3 text-center font-data-tabular text-data-tabular font-bold text-primary pt-stack-md border-t border-outline bg-surface-bright">13,904</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<!-- Legend -->
+<div class="mt-stack-md flex items-center justify-end gap-4 text-section-label font-section-label text-secondary pt-4 border-t border-outline-variant">
+<span>Mention Density:</span>
+<div class="flex items-center gap-1">
+<span class="text-xs">Low</span>
+<div class="w-4 h-4 rounded bg-surface-container border border-outline-variant"></div>
+<div class="w-4 h-4 rounded bg-primary-fixed"></div>
+<div class="w-4 h-4 rounded bg-primary-fixed-dim"></div>
+<div class="w-4 h-4 rounded bg-primary-container"></div>
+<div class="w-4 h-4 rounded bg-primary"></div>
+<span class="text-xs">High</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer from JSON -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface text-primary text-section-label font-section-label full-width mt-auto border-t border-outline-variant flat flex justify-between items-center px-margin-desktop py-stack-md w-full">
+<span class="text-on-surface font-bold">© 2024 Myntra Discovery Engine. For internal research purposes only.</span>
+<div class="flex gap-stack-md">
+<a class="text-on-secondary-container hover:underline hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="text-on-secondary-container hover:underline hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-secondary-container hover:underline hover:text-primary transition-colors" href="#">Internal Support</a>
+</div>
+</footer>
+</body></html>

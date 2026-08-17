@@ -1,0 +1,142 @@
+PROBLEM STATEMENT — WISHLIST-TO-PURCHASE DISCOVERY ENGINE
+Product: Myntra
+Role: Product Manager, Growth Team
+
+================================================================
+1. CONTEXT
+================================================================
+Millions of users on Myntra browse fashion products, save items they
+like, and add products to their wishlist. A wishlist is a high-intent
+signal — the user liked something enough to save it, but stopped short
+of buying it.
+
+Over time, users accumulate dozens or hundreds of wishlisted items,
+while only a small fraction ever convert to a purchase. That gap is
+demand the platform already has, sitting unconverted.
+
+================================================================
+2. BUSINESS GOAL
+================================================================
+Increase the percentage of users who purchase at least one item from
+their wishlist within 30 days of adding it.
+
+Why this matters to the business:
+- Increases purchase frequency among existing, already-engaged users
+- Improves monetization without acquiring new users
+- Extracts value from high-intent demand that already exists on-platform,
+  rather than generating new demand (cheaper than acquisition/discovery)
+
+CONSTRAINT: No monetary incentives (no coupons, discounts, cashback,
+price-drop alerts framed as deals, etc.) may be used as the solution
+lever. The fix must come from removing friction/uncertainty, not from
+paying users to convert.
+
+================================================================
+3. THE ASSIGNMENT: WHAT NEEDS TO BE DISCOVERED
+================================================================
+The underlying user problem is NOT given — it must be discovered
+through AI-assisted research at scale, then validated with real users.
+Candidate questions to resolve (not to be answered from assumption):
+
+- Why do users add fashion products to their wishlist in the first place?
+- What prevents wishlisted products from eventually being purchased?
+- What uncertainties remain after a user has already identified a
+  product they like?
+- What causes users to postpone a purchase?
+- How do users compare multiple shortlisted products?
+- What information do users seek outside Myntra before purchasing
+  (reviews, size charts, styling inspiration, price comparison, etc.)?
+- What role do fit, size, styling, price, reviews, occasion, and social
+  validation play in the final purchase decision?
+- When is the wishlist genuine purchase intent vs. just a bookmarking /
+  moodboard habit?
+- How do these behaviors differ across user segments (e.g. new vs.
+  repeat buyers, category, price sensitivity, gender, occasion-driven
+  vs. everyday shoppers)?
+- What unmet needs show up repeatedly across independent user
+  conversations (i.e. are not one-off complaints)?
+
+================================================================
+4. WORKPLAN (PARTS 1–7)
+================================================================
+
+PART 1 — AI-Powered Discovery Engine
+Build an AI system (Claude/GPT/agents/workflows/n8n/Zapier/Perplexity or
+similar) that scrapes and analyzes public conversations at scale:
+App Store & Play Store reviews, Reddit, fashion/shopping communities,
+social media, YouTube comments, product Q&A, and other public
+discussion of online fashion shopping. Must go beyond
+summarization/sentiment — it should identify, quantify (where possible),
+and compare opportunity areas that could move the business metric.
+
+PART 2 — Metric Decomposition
+Break "Wishlist → Purchase Conversion" into the product outcomes and
+user behaviors that drive it. Define what specifically needs to change
+for the top-line metric to move. Use this decomposition together with
+the discovery engine output to triage opportunity areas.
+
+PART 3 — Primary Research (Validation)
+Pick one target segment + opportunity area from the AI-discovery output.
+Run 5–6 user interviews with that segment. For each wishlisted item,
+understand: why they saved it, whether they still intend to buy it,
+what's stopping them, what would unblock the purchase, what info they
+still need, whether they're evaluating alternatives, what they do
+outside the app before deciding, and how they currently resolve
+uncertainty on their own.
+
+PART 4 — Problem Definition
+State clearly: target segment, the product outcome being targeted, the
+root cause blocking the desired behavior, existing user workarounds,
+why solving it is valuable to the user, and why it's valuable to the
+business. Must show the reasoning chain explicitly:
+Business Metric → Product Outcomes → AI Discovery → Primary Research →
+Problem Definition. The primary research — not assumption — determines
+the final problem chosen.
+
+PART 5 — MVP
+Design and ship a functional MVP that addresses the validated problem.
+Can be a feature within Myntra, an AI workflow, an AI agent, or a
+standalone experience tied to the shopping journey. Must be deployed
+somewhere publicly testable — not just a mockup.
+
+PART 6 — Success Metrics
+Starting from the business metric, define the metrics the MVP is
+expected to move: leading indicators and guardrail metrics, each with a
+definition and rationale for why it was chosen.
+
+PART 7 — Risks & Mitigation
+Identify the most important ways this specific solution could fail, and
+the mitigation plan for each.
+
+================================================================
+5. DELIVERABLES
+================================================================
+1. [Link] AI Discovery Engine — a testable link to the workflow, plus
+   one slide in the final deck explaining how it works.
+2. [PDF] 10-slide deck covering: metric decomposition, discovery engine
+   findings, primary research, problem definition, solution rationale,
+   MVP, success metrics, risks & mitigation.
+3. [Link] Deployed MVP — publicly accessible prototype/workflow/agent
+   that can actually be tested.
+
+================================================================
+6. DECK GUIDELINES (STRICT)
+================================================================
+- No fellow/personal name anywhere in the deck
+- 10 slides maximum
+- Font size: 14 (strict)
+- Slide titles must state the key message/finding, not a generic label
+  (e.g. not "Problem" — state the problem itself)
+- If using background colors, ensure text stays readable and
+  colorblind-safe palettes are used
+- Supporting artefacts (survey URLs, raw data, etc.) linked via
+  hyperlink, with reader access confirmed
+
+================================================================
+7. OPEN / TO BE DECIDED
+================================================================
+- Target segment and opportunity area: to be selected after Part 1 + 2
+  analysis, confirmed by Part 3 interviews — not pre-decided
+- AI stack for the discovery engine: to be finalized in Part 1
+- MVP form factor: to be finalized after Part 4 problem definition
+- Submission deadline: [fill in]

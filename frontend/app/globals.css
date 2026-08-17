@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/*
+ * "Lumina Analytics" theme — ported from the Stitch design reference at
+ * stitch_myntra_wishlist_analytics_engine/. Primary accent is Myntra's
+ * brand pink; a darker AA-contrast shade of it is used anywhere pink sits
+ * directly on a light surface as text/icons/button fills (per the
+ * reference's DESIGN.md), while the brighter true brand pink is reserved
+ * for large-area fills (bars, badges) where large-scale contrast rules
+ * apply instead of body-text contrast rules.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* surfaces */
+  --page-plane: #f8f9ff;
+  --surface-1: #eff4ff;
+  --surface-raised: #ffffff;
+
+  /* text */
+  --text-primary: #0b1c30;
+  --text-secondary: #334155;
+  --text-muted: #6b7690;
+
+  /* structure */
+  --gridline: #dce9ff;
+  --baseline: #cbdbf5;
+  --border: #e2e8f0;
+  --success-text: #0a7d0a;
+
+  /* brand pink accent */
+  --primary: #b90041; /* AA-contrast pink — text, icons, button fills w/ white text */
+  --on-primary: #ffffff;
+  --primary-bright: #ff3f6c; /* true brand pink — large fills only (bars, decoration) */
+  --primary-container: #df2457; /* mid pink — badge fills */
+  --on-primary-container: #ffffff;
+  --primary-soft: #ffe1e6; /* pale pink tint — quote cards, subtle highlight bg */
+  --primary-fixed: #ffd9dc;
+  --primary-fixed-dim: #ffb2ba;
+
+  /* categorical (fixed order — never cycled). Primary source gets brand
+     pink; the rest step down a neutral slate ramp, matching the
+     reference's "pink reserved for the primary series" pattern. Each has a
+     paired --on-series-N text color, since these fills swing from dark
+     (light mode) to light (dark mode) and a single hardcoded text color
+     can't stay legible across that swing. */
+  --series-1: #b90041; /* play_store */
+  --series-2: #515f74; /* app_store */
+  --series-3: #8f6f72; /* reddit */
+  --series-4: #9fb1cc; /* youtube */
+  --series-5: #d3e4fe; /* forum */
+  --on-series-1: #ffffff;
+  --on-series-2: #ffffff;
+  --on-series-3: #ffffff;
+  --on-series-4: #0b1c30;
+  --on-series-5: #0b1c30;
+
+  /* status (fixed, never themed) */
+  --status-good: #0a7d0a;
+  --status-warning: #a15c00;
+  --status-serious: #ba1a1a;
+  --status-critical: #93000a;
+
+  /* 5-step monochrome heatmap ramp, low -> high. Deliberately separate from
+     the --primary-* tokens above: those are re-derived per theme for AA
+     text/icon contrast (so --primary flips to a *light* pink in dark mode),
+     which would silently invert a heatmap's low->high visual ordering if
+     reused directly. This ramp is authored per theme to stay monotonically
+     increasing in perceived intensity regardless of that. */
+  --heat-1: #eff4ff;
+  --heat-2: #ffd9dc;
+  --heat-3: #ffb2ba;
+  --heat-4: #df2457;
+  --heat-5: #b90041;
+  --on-heat-low: #0b1c30; /* text for steps 1-3 (pale bg) */
+  --on-heat-high: #ffffff; /* text for steps 4-5 (saturated bg) */
+}
+
+/* OS-level dark preference, unless the user explicitly picked light */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --page-plane: #0e1016;
+    --surface-1: #171a22;
+    --surface-raised: #1c202a;
+
+    --text-primary: #f3f5fb;
+    --text-secondary: #b9c3d6;
+    --text-muted: #7c869c;
+
+    --gridline: #2a2f3c;
+    --baseline: #363c4c;
+    --border: #2a2f3c;
+    --success-text: #4ade80;
+
+    --primary: #ffb2ba;
+    --on-primary: #400011;
+    --primary-bright: #ff6f91;
+    --primary-container: #7a0030;
+    --on-primary-container: #ffd9dc;
+    --primary-soft: rgba(255, 178, 186, 0.12);
+    --primary-fixed: #5c0018;
+    --primary-fixed-dim: #7a0030;
+
+    --series-1: #ffb2ba;
+    --series-2: #b9c7e0;
+    --series-3: #a89294;
+    --series-4: #5b6b85;
+    --series-5: #333b4d;
+    --on-series-1: #400011;
+    --on-series-2: #0d1c2f;
+    --on-series-3: #2a1215;
+    --on-series-4: #f3f5fb;
+    --on-series-5: #f3f5fb;
+
+    --status-good: #4ade80;
+    --status-warning: #e0a324;
+    --status-serious: #ff6b6b;
+    --status-critical: #ff8a8a;
+
+    /* Ascending brightness/saturation reads as "high" against a dark
+       background — the inverse direction from light mode's ascending
+       darkness, but the correct perceptual pattern for this theme. */
+    --heat-1: #171a22;
+    --heat-2: #4a0018;
+    --heat-3: #7a0030;
+    --heat-4: #c81650;
+    --heat-5: #ff5c82;
+    --on-heat-low: #b9c3d6;
+    --on-heat-high: #1c0008;
+  }
+}
+
+/* Explicit user toggle wins in both directions */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --page-plane: #0e1016;
+  --surface-1: #171a22;
+  --surface-raised: #1c202a;
+
+  --text-primary: #f3f5fb;
+  --text-secondary: #b9c3d6;
+  --text-muted: #7c869c;
+
+  --gridline: #2a2f3c;
+  --baseline: #363c4c;
+  --border: #2a2f3c;
+  --success-text: #4ade80;
+
+  --primary: #ffb2ba;
+  --on-primary: #400011;
+  --primary-bright: #ff6f91;
+  --primary-container: #7a0030;
+  --on-primary-container: #ffd9dc;
+  --primary-soft: rgba(255, 178, 186, 0.12);
+  --primary-fixed: #5c0018;
+  --primary-fixed-dim: #7a0030;
+
+  --series-1: #ffb2ba;
+  --series-2: #b9c7e0;
+  --series-3: #a89294;
+  --series-4: #5b6b85;
+  --series-5: #333b4d;
+
+  --status-good: #4ade80;
+  --status-warning: #e0a324;
+  --status-serious: #ff6b6b;
+  --status-critical: #ff8a8a;
+}
+
+@theme inline {
+  --color-page-plane: var(--page-plane);
+  --color-surface-1: var(--surface-1);
+  --color-surface-raised: var(--surface-raised);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-gridline: var(--gridline);
+  --color-baseline: var(--baseline);
+  --color-border: var(--border);
+  --color-success-text: var(--success-text);
+
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-bright: var(--primary-bright);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-series-3: var(--series-3);
+  --color-series-4: var(--series-4);
+  --color-series-5: var(--series-5);
+  --color-on-series-1: var(--on-series-1);
+  --color-on-series-2: var(--on-series-2);
+  --color-on-series-3: var(--on-series-3);
+  --color-on-series-4: var(--on-series-4);
+  --color-on-series-5: var(--on-series-5);
+
+  --color-status-good: var(--status-good);
+  --color-status-warning: var(--status-warning);
+  --color-status-serious: var(--status-serious);
+  --color-status-critical: var(--status-critical);
+
+  --color-heat-1: var(--heat-1);
+  --color-heat-2: var(--heat-2);
+  --color-heat-3: var(--heat-3);
+  --color-heat-4: var(--heat-4);
+  --color-heat-5: var(--heat-5);
+  --color-on-heat-low: var(--on-heat-low);
+  --color-on-heat-high: var(--on-heat-high);
+
+  --font-sans: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-heading), "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono-data: var(--font-data-mono), "JetBrains Mono", ui-monospace, monospace;
+}
+
+body {
+  background: var(--page-plane);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+.verbatim-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.verbatim-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.verbatim-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--baseline);
+  border-radius: 10px;
+}

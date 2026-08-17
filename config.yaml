@@ -1,0 +1,154 @@
+# Non-secret run parameters for the Discovery Engine pipeline.
+# Secrets (GROQ_API_KEY) live only in .env, never here.
+
+sources:
+  play_store:
+    package_id: "com.myntra.android"
+    country: "in"
+    lang: "en"
+    # google_play_scraper.Sort enum names, tried in this order
+    sort_orders: ["MOST_RELEVANT", "NEWEST"]
+
+  app_store:
+    # Myntra's iTunes trackId, confirmed via
+    # https://itunes.apple.com/search?term=myntra&entity=software
+    track_id: 907394059
+    bundle_id: "com.myntra.Myntra"
+    storefronts: ["in"]
+    # iTunes RSS customer-reviews feed stops returning pages past ~10
+    max_pages: 10
+
+  reddit:
+    user_agent: "discovery-engine:v0.1 (by /u/myntra-discovery-research)"
+    subreddits:
+      - IndianFashionAddicts
+      - IndianSkincareAddicts
+      - india
+      - IndianDankMemes
+      - indianstreetwear
+      - developersIndia   # occasional shopping/app-experience threads
+      - shopping
+    search_terms:
+      - "myntra wishlist"
+      - "myntra return"
+      - "myntra size"
+      - "myntra fit"
+      - "myntra review"
+      - "myntra delivery"
+      - "myntra vs ajio"
+      - "myntra vs flipkart"
+    # Rate limiting/retries are handled by prawcore internally (PRAW client),
+    # not configured here.
+
+  youtube:
+    # Curated seed list of Myntra haul/unboxing/review video URLs.
+    # Best-effort — populate/expand manually; search-result scraping is
+    # deliberately out of scope (fragile, not worth building for this pass).
+    # Each URL below was verified reachable with comments enabled before
+    # being added (a couple of other search hits had comments disabled or
+    # none yet, and were left out).
+    seed_video_urls:
+      - "https://www.youtube.com/watch?v=dcWh2RmeFkE"   # Myntra EORS lehenga sale unboxing & review
+      - "https://www.youtube.com/watch?v=GzIzu9oemgU"   # Myntra shopping haul
+      - "https://www.youtube.com/watch?v=rady1Z9Lwms"   # Myntra haul review, random shopping
+      - "https://www.youtube.com/watch?v=rLYJoK7sLMs"   # Myntra vs Meesho try-on haul comparison
+      - "https://www.youtube.com/watch?v=YZRobZ_eUIA"   # Myntra festive season try-on haul + styling tips
+      - "https://www.youtube.com/watch?v=f8lVKmVj0pI"   # Myntra dress & bags sale haul
+      - "https://www.youtube.com/watch?v=SRezH4EEBy8"   # Myntra dress haul
+      - "https://www.youtube.com/watch?v=lqJCdc4IuQw"   # Myntra smart casuals haul
+      - "https://www.youtube.com/watch?v=qP6KkeHwAbk"   # Myntra summer dresses haul
+    request_delay_seconds: 1
+
+  forums:
+    # Best-effort, lowest-volume source per architecture.md §3. MouthShut's
+    # Myntra review pages block scraping (403) and DesiDime's own review
+    # aggregator page is gone (410) — both checked live. DesiDime's
+    # individual discussion threads below are real, reachable (200), and
+    # robots.txt-allowed.
+    seed_urls:
+      - "https://www.desidime.com/discussions/myntra-has-cancelled-my-order-is-it-fair"
+      - "https://www.desidime.com/discussions/myntra-refund-policy-changed-for-bank-discount-orders"
+      - "https://www.desidime.com/discussions/urgent-myntra-product-exchange-concern"
+      - "https://www.desidime.com/discussions/how-to-avoid-platform-fee-in-myntra"
+      - "https://www.desidime.com/discussions/if-you-have-myntra-refer-code-then-you-get-free-shopping"
+
+# Per-source cap on items collected in a single run.
+item_caps:
+  play_store: 500
+  app_store: 500
+  reddit: 500
+  youtube: 500
+  forums: 200
+
+# Cheap pre-filter applied in Stage 2 before spending LLM budget.
+# A row must contain at least one of these (case-insensitive) to survive.
+#
+# Narrowed to wishlist/save-for-later terms only — the broader
+# purchase-decision list (size, fit, price, returns, ...) that architecture.md
+# originally specified was scoped down per an explicit user decision to
+# restrict final opportunity areas to items mentioning wishlist/save-for-later
+# behavior (see synthesize.py's wishlist-scope filter). Extracting the other
+# ~90% of the corpus just to discard it at Stage 4 was pure waste once that
+# scope was fixed — this cuts Stage 3's workload accordingly. Trade-off:
+# a plain keyword match will miss some wishlist-adjacent reviews phrased
+# without these words (e.g. "decided to think it over"), which the broader
+# filter + LLM judgment used to catch.
+keyword_prefilter:
+  - wishlist
+  - wish list
+  - save for later
+  - saved for later
+  - save it for later
+  - saved item
+  - save item
+  - add to wishlist
+  - added to wishlist
+  - move to wishlist
+  - moved to wishlist
+  - shortlist
+  - shortlisted
+  - bookmark
+  - bookmarked
+  - buy later
+  - purchase later
+
+# Controlled vocabulary mirrored from problemStatement.md's decision-factor
+# question list — used to constrain the `decision_factors` field in Stage 3.
+decision_factors:
+  - fit
+  - price
+  - reviews
+  - occasion
+  - styling
+  - social_validation
+
+# Groq model per stage.
+models:
+  extraction: "llama-3.1-8b-instant"
+  synthesis_labeling: "llama-3.3-70b-versatile"
+
+embedding:
+  model: "sentence-transformers/all-MiniLM-L6-v2"
+
+clustering:
+  # HDBSCAN over unique phrase embeddings. 3 is deliberately low to produce
+  # any clusters at all from the current small (48-item) verification
+  # sample — raise this (e.g. 8-15) before the full-corpus run, where a
+  # cluster this small would just be noise, not a real theme.
+  min_cluster_size: 3
+  min_samples: 1
+  # Below this many total relevant extracted items, cluster output is
+  # flagged as not yet statistically meaningful (edge-case 9.3).
+  min_relevant_items_for_confidence: 200
+
+# Approximate USD per 1M tokens, for the run-log cost estimate only — NOT
+# verified against Groq's live pricing at time of writing. Check
+# https://groq.com/pricing before trusting these numbers for a real budget
+# decision; treat the run log's "estimated cost" as directional, not exact.
+pricing:
+  llama-3.1-8b-instant:
+    input_per_million: 0.05
+    output_per_million: 0.08
+  llama-3.3-70b-versatile:
+    input_per_million: 0.59
+    output_per_million: 0.79

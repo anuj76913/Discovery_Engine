@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Myntra Wishlist-to-Purchase Discovery Engine</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&amp;family=Inter:wght@400&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#d3e4fe",
+                        "on-secondary-container": "#57657b",
+                        "on-primary-fixed": "#400011",
+                        "on-background": "#0b1c30",
+                        "inverse-primary": "#ffb2ba",
+                        "on-primary-fixed-variant": "#910031",
+                        "on-tertiary-container": "#fbfdff",
+                        "surface-tint": "#bd0043",
+                        "outline-variant": "#e3bdc0",
+                        "outline": "#8f6f72",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#727577",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#0b1c30",
+                        "surface-dim": "#cbdbf5",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#ffb2ba",
+                        "on-tertiary-fixed": "#191c1e",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#595c5e",
+                        "surface-bright": "#f8f9ff",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "surface-container-high": "#dce9ff",
+                        "secondary": "#515f74",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#e0e3e5",
+                        "on-secondary-fixed": "#0d1c2f",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "secondary-fixed": "#d5e3fd",
+                        "inverse-surface": "#213145",
+                        "primary-fixed": "#ffd9dc",
+                        "on-surface-variant": "#5b4042",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b9c7e0",
+                        "secondary-container": "#d5e3fd",
+                        "surface": "#f8f9ff",
+                        "on-primary-container": "#fffbff",
+                        "on-secondary-fixed-variant": "#3a485c",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#b90041",
+                        "primary-container": "#df2457",
+                        "surface-container": "#e5eeff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "grid-columns": "12",
+                        "stack-lg": "32px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "section-label": ["Hanken Grotesk"],
+                        "body-regular": ["Inter"],
+                        "data-tabular": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "section-label": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "body-regular": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "data-tabular": ["13px", { "lineHeight": "18px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom Scrollbar for Verbatim Section */
+        .verbatim-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .verbatim-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .verbatim-scroll::-webkit-scrollbar-thumb {
+            background-color: #e3bdc0; /* outline-variant */
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-regular">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface w-full relative z-10 flex flex-col pt-stack-lg px-margin-desktop max-w-7xl mx-auto">
+<div class="flex items-center justify-between w-full pb-stack-md">
+<div class="flex items-center gap-stack-sm hover:text-primary transition-colors duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-primary dark:text-inverse-primary" data-icon="insights">insights</span>
+<h1 class="text-headline-md font-headline-md font-bold text-on-surface dark:text-inverse-on-surface tracking-tight">Myntra Wishlist-to-Purchase Discovery Engine</h1>
+</div>
+<button aria-label="Toggle Theme" class="p-2 rounded-full hover:bg-surface-container transition-colors text-primary dark:text-inverse-primary opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined" data-icon="light_mode">light_mode</span>
+</button>
+</div>
+</header>
+<!-- NavigationDrawer (used as horizontal nav here based on context) -->
+<nav class="bg-surface dark:bg-surface w-full border-b border-outline-variant sticky top-0 z-20">
+<div class="flex space-x-gutter px-margin-desktop max-w-7xl mx-auto w-full">
+<!-- Tab 1: Ranked Areas (ACTIVE) -->
+<a class="flex items-center gap-2 text-primary font-bold border-b-2 border-primary mb-[-1px] py-stack-md group" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="equalizer" data-weight="fill">equalizer</span>
+<span>Ranked Areas</span>
+</a>
+<!-- Tab 2: Source Breakdown (INACTIVE) -->
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:opacity-80" data-icon="analytics">analytics</span>
+<span>Source Breakdown</span>
+</a>
+<!-- Tab 3: Segment Cross-Tab (INACTIVE) -->
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:opacity-80" data-icon="grid_view">grid_view</span>
+<span>Segment Cross-Tab</span>
+</a>
+<!-- Tab 4: Methodology (INACTIVE) -->
+<a class="flex items-center gap-2 text-on-surface-variant py-stack-md hover:text-primary transition-all group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:opacity-80" data-icon="description">description</span>
+<span>Methodology</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow px-margin-desktop max-w-7xl mx-auto w-full py-stack-lg grid grid-cols-12 gap-gutter">
+<!-- Left Column: Ranked Areas Chart -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-stack-md">
+<div class="flex items-center justify-between mb-stack-sm">
+<h2 class="text-headline-md font-headline-md text-on-surface">Top Opportunity Areas</h2>
+<div class="flex bg-surface-container-low rounded-full p-1 border border-outline-variant shadow-sm">
+<button class="px-3 py-1 rounded-full text-section-label font-section-label bg-primary text-on-primary shadow-sm transition-all">Mentions</button>
+<button class="px-3 py-1 rounded-full text-section-label font-section-label text-on-surface-variant hover:text-primary transition-all">% Relevant</button>
+</div>
+</div>
+<!-- Chart Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 flex flex-col gap-stack-md relative shadow-sm">
+<!-- Ranked Item 1 (Active) -->
+<div class="relative group cursor-pointer">
+<div class="flex justify-between items-end mb-1 z-10 relative px-2 pt-2">
+<span class="font-bold text-on-surface text-body-regular truncate pr-4">1. Technical issues hinder wishlist usage</span>
+<span class="font-data-tabular text-data-tabular text-primary font-bold">428</span>
+</div>
+<!-- Bar Background -->
+<div class="h-8 w-full bg-surface-container-high rounded-r-sm overflow-hidden relative border-l-2 border-primary">
+<!-- Bar Fill -->
+<div class="h-full bg-primary opacity-20 absolute left-0 top-0" style="width: 100%;"></div>
+<div class="h-full bg-primary absolute left-0 top-0 transition-all duration-500 ease-out" style="width: 85%;"></div>
+</div>
+</div>
+<!-- Ranked Item 2 -->
+<div class="relative group cursor-pointer hover:bg-surface-container-low transition-colors -mx-2 px-2 py-1 rounded-md">
+<div class="flex justify-between items-end mb-1 z-10 relative">
+<span class="font-medium text-on-surface-variant text-body-regular group-hover:text-on-surface transition-colors truncate pr-4">2. Price drop notifications are unreliable</span>
+<span class="font-data-tabular text-data-tabular text-secondary">312</span>
+</div>
+<div class="h-6 w-full bg-surface-container-high rounded-r-sm overflow-hidden relative">
+<div class="h-full bg-secondary opacity-80 absolute left-0 top-0 transition-all duration-500 ease-out" style="width: 65%;"></div>
+</div>
+</div>
+<!-- Ranked Item 3 -->
+<div class="relative group cursor-pointer hover:bg-surface-container-low transition-colors -mx-2 px-2 py-1 rounded-md">
+<div class="flex justify-between items-end mb-1 z-10 relative">
+<span class="font-medium text-on-surface-variant text-body-regular group-hover:text-on-surface transition-colors truncate pr-4">3. Out of stock anxiety drives cart abandonment</span>
+<span class="font-data-tabular text-data-tabular text-secondary">245</span>
+</div>
+<div class="h-6 w-full bg-surface-container-high rounded-r-sm overflow-hidden relative">
+<div class="h-full bg-secondary opacity-60 absolute left-0 top-0 transition-all duration-500 ease-out" style="width: 52%;"></div>
+</div>
+</div>
+<!-- Ranked Item 4 -->
+<div class="relative group cursor-pointer hover:bg-surface-container-low transition-colors -mx-2 px-2 py-1 rounded-md">
+<div class="flex justify-between items-end mb-1 z-10 relative">
+<span class="font-medium text-on-surface-variant text-body-regular group-hover:text-on-surface transition-colors truncate pr-4">4. Wishlist organization lacks folder capability</span>
+<span class="font-data-tabular text-data-tabular text-secondary">189</span>
+</div>
+<div class="h-6 w-full bg-surface-container-high rounded-r-sm overflow-hidden relative">
+<div class="h-full bg-secondary opacity-40 absolute left-0 top-0 transition-all duration-500 ease-out" style="width: 38%;"></div>
+</div>
+</div>
+<!-- Ranked Item 5 -->
+<div class="relative group cursor-pointer hover:bg-surface-container-low transition-colors -mx-2 px-2 py-1 rounded-md">
+<div class="flex justify-between items-end mb-1 z-10 relative">
+<span class="font-medium text-on-surface-variant text-body-regular group-hover:text-on-surface transition-colors truncate pr-4">5. Social sharing of lists is too complex</span>
+<span class="font-data-tabular text-data-tabular text-secondary">124</span>
+</div>
+<div class="h-6 w-full bg-surface-container-high rounded-r-sm overflow-hidden relative">
+<div class="h-full bg-secondary opacity-30 absolute left-0 top-0 transition-all duration-500 ease-out" style="width: 25%;"></div>
+</div>
+</div>
+</div>
+<div class="text-section-label font-section-label text-tertiary uppercase tracking-wider text-center mt-2">
+                Showing top 5 of 24 identified areas
+            </div>
+</section>
+<!-- Right Column: Deep Dive Evidence -->
+<section class="col-span-12 lg:col-span-8 flex flex-col h-full">
+<!-- Detail Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm flex flex-col h-full overflow-hidden">
+<!-- Card Header -->
+<div class="p-6 border-b border-outline-variant bg-surface-bright relative">
+<div class="absolute top-6 right-6 flex gap-2">
+<button aria-label="Information" class="p-2 rounded-full hover:bg-surface-container text-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="info">info</span>
+</button>
+<button aria-label="Export" class="p-2 rounded-full hover:bg-surface-container text-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+</button>
+</div>
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-primary-container text-on-primary-container text-section-label font-section-label px-2 py-1 rounded-md uppercase tracking-wider">Rank #1</span>
+<span class="text-on-surface-variant text-body-regular">High Confidence Signal</span>
+</div>
+<h3 class="text-display-lg font-display-lg text-on-surface mb-4 pr-24">Technical issues hinder wishlist usage</h3>
+<p class="text-body-regular text-on-surface-variant max-w-3xl leading-relaxed mb-6">
+                        Users frequently report app crashes, slow loading times, or items spontaneously disappearing from their wishlists. This technical friction directly correlates with lower conversion rates from saved items to the cart, specifically during high-traffic sale events.
+                    </p>
+<!-- Summary Stats Grid -->
+<div class="grid grid-cols-3 gap-4 mb-6">
+<div class="bg-surface px-4 py-3 rounded-lg border border-surface-container-high">
+<div class="text-section-label font-section-label text-secondary uppercase mb-1">Total Mentions</div>
+<div class="text-headline-md font-headline-md text-primary font-bold">428</div>
+</div>
+<div class="bg-surface px-4 py-3 rounded-lg border border-surface-container-high">
+<div class="text-section-label font-section-label text-secondary uppercase mb-1">Avg. Severity (1-5)</div>
+<div class="text-headline-md font-headline-md text-on-surface font-bold">4.2</div>
+</div>
+<div class="bg-surface px-4 py-3 rounded-lg border border-surface-container-high">
+<div class="text-section-label font-section-label text-secondary uppercase mb-1">Est. Revenue Impact</div>
+<div class="text-headline-md font-headline-md text-on-error-container font-bold">High</div>
+</div>
+</div>
+<!-- Tags Area -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="text-section-label font-section-label text-tertiary w-32 shrink-0">USER SEGMENTS:</span>
+<div class="flex flex-wrap gap-2">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-data-tabular font-data-tabular border border-secondary-fixed-dim">Power Users</span>
+<span class="bg-surface-container px-3 py-1 rounded-full text-data-tabular font-data-tabular border border-surface-dim text-on-surface-variant">Sale Shoppers</span>
+<span class="bg-surface-container px-3 py-1 rounded-full text-data-tabular font-data-tabular border border-surface-dim text-on-surface-variant">iOS App Users</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-section-label font-section-label text-tertiary w-32 shrink-0">DECISION FACTORS:</span>
+<div class="flex flex-wrap gap-2">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-data-tabular font-data-tabular border border-outline-variant">Frustration</span>
+<span class="bg-surface-container px-3 py-1 rounded-full text-data-tabular font-data-tabular border border-surface-dim text-on-surface-variant">Trust Deficit</span>
+<span class="bg-surface-container px-3 py-1 rounded-full text-data-tabular font-data-tabular border border-surface-dim text-on-surface-variant">Time Pressure</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Verbatim Insights Section (Scrollable) -->
+<div class="flex-grow p-6 bg-surface flex flex-col h-[400px]">
+<div class="flex items-center justify-between mb-4">
+<h4 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="format_quote">format_quote</span>
+                            Verbatim Insights
+                        </h4>
+<span class="text-section-label font-section-label text-tertiary">Sampled from 428 reviews</span>
+</div>
+<div class="overflow-y-auto pr-2 verbatim-scroll flex flex-col gap-4">
+<!-- Quote Card 1 -->
+<div class="bg-primary-fixed bg-opacity-20 border border-outline-variant p-4 rounded-lg relative">
+<span class="material-symbols-outlined absolute top-4 right-4 text-primary opacity-20 text-[40px]" data-icon="format_quote">format_quote</span>
+<p class="text-body-regular text-on-surface mb-3 relative z-10 italic">
+                                "I spent an hour adding kurtas to my wishlist for the Diwali sale, and when I opened the app next morning, half of them were gone. It just kept showing a loading spinner. Ended up buying nothing because I was so frustrated."
+                            </p>
+<div class="flex justify-between items-center text-xs text-on-surface-variant font-data-tabular">
+<span>App Store Review • iOS • 2 days ago</span>
+<span class="flex items-center text-primary"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="thumb_down">thumb_down</span> Sentiment: Negative</span>
+</div>
+</div>
+<!-- Quote Card 2 -->
+<div class="bg-surface-container p-4 rounded-lg border border-surface-dim relative">
+<p class="text-body-regular text-on-surface mb-3 relative z-10 italic">
+                                "The wishlist button takes forever to respond. I click the heart icon and nothing happens, so I click again and it removes the item. Very buggy experience during the End of Reason Sale."
+                            </p>
+<div class="flex justify-between items-center text-xs text-on-surface-variant font-data-tabular">
+<span>Customer Support Ticket • Android • 1 week ago</span>
+<span class="flex items-center text-primary"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="bug_report">bug_report</span> Tagged: Bug</span>
+</div>
+</div>
+<!-- Quote Card 3 -->
+<div class="bg-primary-fixed bg-opacity-10 border border-outline-variant p-4 rounded-lg relative">
+<p class="text-body-regular text-on-surface mb-3 relative z-10 italic">
+                                "Love the clothes but the wishlist feature is completely broken right now. It shows I have 15 items but when I click it, the page is blank. Please fix this, I use it to track price drops."
+                            </p>
+<div class="flex justify-between items-center text-xs text-on-surface-variant font-data-tabular">
+<span>Twitter Mention • Web • 2 weeks ago</span>
+<span class="flex items-center text-primary"><span class="material-symbols-outlined text-[16px] mr-1" data-icon="warning">warning</span> Priority: High</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface w-full mt-auto border-t border-outline-variant">
+<div class="flex justify-between items-center px-margin-desktop py-stack-md max-w-7xl mx-auto w-full">
+<div class="text-section-label font-section-label text-on-surface font-bold uppercase tracking-wide">
+                © 2024 Myntra Discovery Engine. For internal research purposes only.
+            </div>
+<div class="flex gap-6">
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-section-label font-section-label text-on-secondary-container hover:underline hover:text-primary transition-colors" href="#">Internal Support</a>
+</div>
+</div>
+</footer>
+</body></html>
