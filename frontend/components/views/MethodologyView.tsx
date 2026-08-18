@@ -25,7 +25,7 @@ const STAGES = [
   {
     name: "Classify & Quantify",
     detail:
-      "Free-text reasons/blockers are classified by an LLM into a fixed set of 11 wishlist opportunity themes identified by manual review of the corpus — not open-ended clustering — then quantified: mention count, source spread, segment cross-tab, and a transparent rank score.",
+      "Free-text reasons/blockers are classified by an LLM into a fixed set of wishlist opportunity themes identified by manual review of the corpus — not open-ended clustering — then quantified: mention count, source spread, segment cross-tab, and a transparent rank score.",
   },
   {
     name: "Serve",
@@ -128,8 +128,9 @@ export default function MethodologyView({ data }: Props) {
               </li>
               <li>
                 <strong className="text-text-primary">Fixed taxonomy:</strong> every opportunity area maps to one of
-                11 themes identified by manual review of the corpus. A phrase that doesn&apos;t clearly match one of
-                them is dropped rather than forced into the nearest theme or bucketed as &ldquo;Other&rdquo;.
+                {" "}{data.methodology.taxonomy_size} themes identified by manual review of the corpus. A phrase that
+                doesn&apos;t clearly match one of them is dropped rather than forced into the nearest theme or
+                bucketed as &ldquo;Other&rdquo;.
               </li>
               {data.low_sample_warning && data.note && (
                 <li>

@@ -9,7 +9,7 @@
   "low_sample_warning": false,
   "note": null,
   "methodology": {
-    "taxonomy_size": 11,
+    "taxonomy_size": 9,
     "ranking_formula": "score = mention_count * source_diversity_weight, where source_diversity_weight = distinct_sources_in_theme / distinct_sources_in_corpus",
     "corpus_scope": "Two-stage filter: (1) restricted to items where extraction flagged mentions_wishlist_or_save_for_later — not every purchase-decision-relevant item that was extracted; (2) within those items, individual reason/blocker/info phrases are classified into one of a fixed set of named wishlist opportunity themes (defined by manual review of the corpus, not open-ended clustering) — a phrase that doesn't clearly match one of those themes is dropped rather than forced into the nearest one."
   },
@@ -90,77 +90,6 @@
       "rank": 1
     },
     {
-      "opportunity_area": "Wishlist disappears",
-      "description": "Previously saved wishlist items vanish or get cleared unexpectedly — a technical, data-loss problem rather than a deliberate user action.",
-      "category": "technical",
-      "mention_count": 26,
-      "pct_of_relevant_items": 0.1111,
-      "source_breakdown": {
-        "play_store": 23,
-        "app_store": 3
-      },
-      "segment_breakdown": {
-        "price_sensitive": 1
-      },
-      "top_segment_signals": [
-        "price_sensitive"
-      ],
-      "decision_factor_breakdown": {
-        "price": 1,
-        "reviews": 2
-      },
-      "journey_stage_breakdown": {
-        "saved_not_bought": 11,
-        "abandoned": 15
-      },
-      "cross_source_validation": true,
-      "score": 17.3333,
-      "source_diversity_weight": 0.6667,
-      "sample_quotes": [
-        {
-          "quote": "All my saved/wishlisted items have disappeared!",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "I have literally added 30 items to the cart and few to the wishlist, and they get automatically deleted by the time I checkout.",
-          "source": "app_store",
-          "url": null
-        },
-        {
-          "quote": "Lost all my shortlisted stuff which i kept in the 'like' section.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "I lost my all efforts browsing thousands of items and saving it for later check",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "The app automatically got connected with my another email ID and all my data i.e. my insider points,order history and wishlist was wipped out.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "From past one week, every now and then while exploring products either the app will go haywire or on clicking any product the white screen will appear and will stay there and nothing will happen when you click back the app will crash and when we try to reopen the same all the search results are disappeared and eventhelast item put into wishlist is also disappeared.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "The Latest Update brought Great Inconvenience like That of Capping the Wishlist items limit, All Collections saved are not visible/accessible.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "Faced problems while login and all my items in wishlist and orders got deleted...",
-          "source": "play_store",
-          "url": null
-        }
-      ],
-      "rank": 2
-    },
-    {
       "opportunity_area": "Wishlist capacity limit (max ~1000 items)",
       "description": "Users hit a cap on how many items the wishlist can hold and are unable to add further items.",
       "category": "behavioral",
@@ -229,7 +158,7 @@
           "url": null
         }
       ],
-      "rank": 3
+      "rank": 2
     },
     {
       "opportunity_area": "Missing search and sorting/filter options in the wishlist",
@@ -301,71 +230,7 @@
           "url": null
         }
       ],
-      "rank": 4
-    },
-    {
-      "opportunity_area": "Slow wishlist loading",
-      "description": "The wishlist page or screen takes a long time to load — a technical performance problem.",
-      "category": "technical",
-      "mention_count": 17,
-      "pct_of_relevant_items": 0.0726,
-      "source_breakdown": {
-        "play_store": 17
-      },
-      "segment_breakdown": {},
-      "top_segment_signals": [],
-      "decision_factor_breakdown": {},
-      "journey_stage_breakdown": {
-        "abandoned": 10,
-        "browsing": 5,
-        "saved_not_bought": 2
-      },
-      "cross_source_validation": false,
-      "score": 5.6667,
-      "source_diversity_weight": 0.3333,
-      "sample_quotes": [
-        {
-          "quote": "Just a small issue with the wishlist, when I scroll down, after a while it stops loading more items.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "I can't edit my wishlist or scroll through items because of the slow app",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "in wishlist does not have option to select all and delete in once rather have to go through individually and delete one by one which time consuming",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "can't see my wishlist, my order",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "While viewing the wishlist, it keeps loading and does not show all the items because it initially shows the out of stock ones and then we need to scroll down to refresh it, scroll up again and then we can view the remaining ones.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "The only sad thing about Myntra app is, that it is sooooooooooo slow when you are browsing products from cart or wishlist.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "The app interface is extremely slow, especially wishlist section where the products once added is way tooooo difficult to remove or declutter them.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "The app is quite slow and takes a while to load your wishlist and cart.",
-          "source": "play_store",
-          "url": null
-        }
-      ],
-      "rank": 5
+      "rank": 3
     },
     {
       "opportunity_area": "Out-of-stock items clutter the wishlist",
@@ -438,7 +303,7 @@
           "url": null
         }
       ],
-      "rank": 6
+      "rank": 4
     },
     {
       "opportunity_area": "Cart addition failures from wishlist prevent purchase conversion",
@@ -488,7 +353,7 @@
           "url": null
         }
       ],
-      "rank": 7
+      "rank": 5
     },
     {
       "opportunity_area": "No notification when out-of-stock wishlist items are back in stock",
@@ -528,7 +393,7 @@
           "url": null
         }
       ],
-      "rank": 8
+      "rank": 6
     },
     {
       "opportunity_area": "Need to log in in order to add to wishlist",
@@ -560,7 +425,7 @@
           "url": null
         }
       ],
-      "rank": 9
+      "rank": 7
     },
     {
       "opportunity_area": "Pincode not serviceable after being added to wishlist",
@@ -594,7 +459,7 @@
           "url": null
         }
       ],
-      "rank": 10
+      "rank": 8
     },
     {
       "opportunity_area": "Size/color not saved with wishlist item",
@@ -615,7 +480,7 @@
       "score": 0.3333,
       "source_diversity_weight": 0.3333,
       "sample_quotes": [],
-      "rank": 11
+      "rank": 9
     }
   ]
 }
