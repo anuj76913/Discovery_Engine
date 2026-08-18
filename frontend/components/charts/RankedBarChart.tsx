@@ -17,7 +17,7 @@ export default function RankedBarChart({ areas, metric, selectedRank, onSelect }
 
   return (
     <div className="flex flex-col gap-1" role="list">
-      {areas.map((area) => {
+      {areas.map((area, index) => {
         const value = area[metric];
         const pct = Math.max((value / max) * 100, 3);
         const display = metric === "pct_of_relevant_items" ? `${(value * 100).toFixed(1)}%` : formatNumber(value);
@@ -36,7 +36,7 @@ export default function RankedBarChart({ areas, metric, selectedRank, onSelect }
           >
             <div className="mb-1.5 flex items-baseline justify-between gap-3">
               <span className={`min-w-0 flex-1 truncate text-base ${selected ? "font-bold text-text-primary" : "font-medium text-text-secondary group-hover:text-text-primary"}`}>
-                {area.rank}. {area.opportunity_area}
+                {index + 1}. {area.opportunity_area}
               </span>
               <span className={`shrink-0 font-mono-data text-sm ${selected ? "font-bold text-primary" : "text-text-secondary"}`}>
                 {display}

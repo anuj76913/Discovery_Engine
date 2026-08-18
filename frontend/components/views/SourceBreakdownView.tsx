@@ -7,11 +7,12 @@ import { orderSources, sourceColor, sourceLabel } from "@/lib/colors";
 
 interface Props {
   areas: OpportunityArea[];
+  sourcesRepresented: string[];
 }
 
 type Mode = "relative" | "raw";
 
-export default function SourceBreakdownView({ areas }: Props) {
+export default function SourceBreakdownView({ areas, sourcesRepresented }: Props) {
   const [mode, setMode] = useState<Mode>("relative");
   const sorted = [...areas].sort((a, b) => a.rank - b.rank);
 
@@ -22,7 +23,13 @@ export default function SourceBreakdownView({ areas }: Props) {
     }
   }
   const grandTotal = [...totals.values()].reduce((a, b) => a + b, 0) || 1;
-  const legendSources = orderSources([...totals.keys()]);
+  // Legend covers every source the corpus actually drew from (edge-case:
+  // the fixed opportunity-area taxonomy can end up with zero surviving
+  // mentions for a source even though it contributed relevant items), not
+  // just sources that happened to have a theme-matched mention survive —
+  // otherwise a 0%-contributing source silently vanishes from the legend
+  // instead of visibly reading as "checked, found nothing here".
+  const legendSources = orderSources([...new Set([...sourcesRepresented, ...totals.keys()])]);
 
   return (
     <div className="grid grid-cols-12 gap-6">

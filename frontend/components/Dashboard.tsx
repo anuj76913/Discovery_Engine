@@ -3,11 +3,11 @@
 import { useState } from "react";
 import type { OpportunityAreasFile } from "@/lib/types";
 import ThemeToggle from "@/components/ThemeToggle";
+import ExportMenu from "@/components/ExportMenu";
 import RankedAreasView from "@/components/views/RankedAreasView";
 import SourceBreakdownView from "@/components/views/SourceBreakdownView";
-import SegmentCrossTabView from "@/components/views/SegmentCrossTabView";
 import MethodologyView from "@/components/views/MethodologyView";
-import { InsightsIcon, RankedIcon, SourceIcon, SegmentIcon, MethodologyIcon } from "@/components/icons";
+import { InsightsIcon, RankedIcon, SourceIcon, MethodologyIcon } from "@/components/icons";
 import { formatDateTime } from "@/lib/format";
 
 interface Props {
@@ -17,7 +17,6 @@ interface Props {
 const TABS = [
   { id: "ranked", label: "Ranked Areas", icon: RankedIcon },
   { id: "sources", label: "Source Breakdown", icon: SourceIcon },
-  { id: "segments", label: "Segment Cross-Tab", icon: SegmentIcon },
   { id: "methodology", label: "Methodology", icon: MethodologyIcon },
 ] as const;
 
@@ -42,7 +41,10 @@ export default function Dashboard({ data }: Props) {
               </p>
             </div>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-3">
+            <ExportMenu data={data} />
+            <ThemeToggle />
+          </div>
         </div>
 
         <nav className="mx-auto flex max-w-[1680px] flex-wrap gap-6 overflow-x-auto px-6 sm:px-10">
@@ -84,8 +86,7 @@ export default function Dashboard({ data }: Props) {
         ) : (
           <>
             {tab === "ranked" && <RankedAreasView areas={data.opportunity_areas} />}
-            {tab === "sources" && <SourceBreakdownView areas={data.opportunity_areas} />}
-            {tab === "segments" && <SegmentCrossTabView areas={data.opportunity_areas} />}
+            {tab === "sources" && <SourceBreakdownView areas={data.opportunity_areas} sourcesRepresented={data.sources_represented} />}
           </>
         )}
         {tab === "methodology" && <MethodologyView data={data} />}

@@ -23,9 +23,9 @@ const STAGES = [
       "Each item is sent to an LLM for structured extraction — reasons for saving, blockers to purchase, journey stage, decision factors, sentiment — not just a sentiment label.",
   },
   {
-    name: "Cluster & Quantify",
+    name: "Classify & Quantify",
     detail:
-      "Free-text reasons/blockers are embedded and clustered (HDBSCAN); each cluster is named by one LLM call, then quantified: mention count, source spread, segment cross-tab, and a transparent rank score.",
+      "Free-text reasons/blockers are classified by an LLM into a fixed set of 11 wishlist opportunity themes identified by manual review of the corpus — not open-ended clustering — then quantified: mention count, source spread, segment cross-tab, and a transparent rank score.",
   },
   {
     name: "Serve",
@@ -103,7 +103,7 @@ export default function MethodologyView({ data }: Props) {
               <Stat label="Generated" value={formatDateTime(data.generated_at)} />
               <Stat label="Relevant items analyzed" value={formatNumber(data.total_relevant_items)} />
               <Stat label="Sources represented" value={data.sources_represented.map(sourceLabel).join(", ") || "none yet"} />
-              <Stat label="Embedding model" value={data.methodology.embedding_model} />
+              <Stat label="Fixed taxonomy size" value={`${data.methodology.taxonomy_size} themes`} />
             </dl>
             <p className="mt-4 border-t border-gridline pt-4 text-base leading-relaxed text-text-secondary">
               {data.methodology.corpus_scope}
@@ -127,8 +127,9 @@ export default function MethodologyView({ data }: Props) {
                 before treating a single-source theme as broadly representative.
               </li>
               <li>
-                <strong className="text-text-primary">Clustering noise:</strong> phrases HDBSCAN couldn&apos;t
-                confidently group into a theme are dropped rather than forced into a misleading cluster.
+                <strong className="text-text-primary">Fixed taxonomy:</strong> every opportunity area maps to one of
+                11 themes identified by manual review of the corpus. A phrase that doesn&apos;t clearly match one of
+                them is dropped rather than forced into the nearest theme or bucketed as &ldquo;Other&rdquo;.
               </li>
               {data.low_sample_warning && data.note && (
                 <li>

@@ -99,7 +99,9 @@ For each input item, extract structured signal — reasons, blockers, uncertaint
 
 Rules:
 - Only use information stated or clearly implied in that item's own text. Do not invent details or borrow from other items.
+- `mentions_wishlist_or_save_for_later` must be true ONLY when the item is specifically about MYNTRA's own wishlist/save-for-later feature. A mention of a wishlist on a different platform (Amazon, Meesho, Flipkart, etc.), or a colloquial "wish list" of things someone wants a video creator/influencer to gift them (common in YouTube comments — not about any shopping app feature at all), must be marked false. When genuinely ambiguous which platform or sense is meant, default to false rather than guessing true.
 - `representative_quote` MUST be an exact, verbatim substring copied from that item's own text — not a paraphrase, not from another item. If there's no quotable evidence, use an empty string.
+- When an item has multiple sentences, `representative_quote` MUST be the single sentence that most SPECIFICALLY illustrates the reason/blocker/info-sought you extracted — never a vague summary, general consequence, or throwaway closer (e.g. "I hardly shop here anymore") when a more specific sentence describing the actual problem exists elsewhere in the same text. Prefer the sentence a reader could use as direct evidence for the specific reasons/blockers listed, not just any sentence from the item.
 - `decision_factors` must only use values from this fixed list: {vocab_list}. Omit any that don't apply; never invent new ones.
 - `user_journey_stage` must be exactly one of: {", ".join(sorted(VALID_JOURNEY_STAGES))}.
 - `sentiment` must be exactly one of: {", ".join(sorted(VALID_SENTIMENTS))}.
@@ -213,6 +215,7 @@ def _call_groq(client: "groq.Groq", model: str, system_prompt: str, batch: list[
                 response_format={"type": "json_object"},
                 temperature=0.1,
                 max_tokens=MAX_OUTPUT_TOKENS,
+                reasoning_effort="low",  # structured extraction, not a task needing heavy reasoning
             )
         except groq.RateLimitError:
             print(f"[extract] WARN: rate limited (attempt {attempt}/{MAX_RETRIES}), backing off {backoff}s")

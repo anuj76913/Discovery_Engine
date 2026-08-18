@@ -12,6 +12,7 @@ export interface OpportunityArea {
   rank: number;
   opportunity_area: string;
   description: string;
+  category: "behavioral" | "technical";
   mention_count: number;
   pct_of_relevant_items: number;
   source_breakdown: Record<string, number>;
@@ -26,7 +27,7 @@ export interface OpportunityArea {
 }
 
 export interface Methodology {
-  embedding_model: string;
+  taxonomy_size: number;
   ranking_formula: string;
   corpus_scope: string;
 }

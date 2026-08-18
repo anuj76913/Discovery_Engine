@@ -13,8 +13,17 @@ type Metric = "mention_count" | "pct_of_relevant_items";
 
 export default function RankedAreasView({ areas }: Props) {
   const [metric, setMetric] = useState<Metric>("mention_count");
-  const sorted = [...areas].sort((a, b) => a.rank - b.rank);
-  const [selectedRank, setSelectedRank] = useState<number>(sorted[0]?.rank ?? 1);
+  // Sorted by whichever metric is selected — the list (and its displayed
+  // position numbers) should match what the toggle says, not the pipeline's
+  // fixed score-based rank (which factors in cross-source weighting, so a
+  // higher-mention area can legitimately sit below a lower-mention one
+  // there). `area.rank` itself is preserved as a stable identity for
+  // selection and is still shown as-is in the detail panel's "RANK #N"
+  // badge, since that's a documented fact about the area, not its position
+  // in this particular view.
+  const byRank = [...areas].sort((a, b) => a.rank - b.rank);
+  const sorted = [...areas].sort((a, b) => b[metric] - a[metric]);
+  const [selectedRank, setSelectedRank] = useState<number>(byRank[0]?.rank ?? 1);
   const selected = sorted.find((a) => a.rank === selectedRank) ?? sorted[0];
 
   return (

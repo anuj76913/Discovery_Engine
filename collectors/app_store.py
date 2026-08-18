@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import common
 
 SOURCE = "app_store"
-FEED_URL = "https://itunes.apple.com/{storefront}/rss/customerreviews/id={track_id}/sortBy=mostRecent/page={page}/json"
+FEED_URL = "https://itunes.apple.com/{storefront}/rss/customerreviews/id={track_id}/sortBy={sort}/page={page}/json"
 PAGE_DELAY_SECONDS = 1
 
 
@@ -43,11 +43,11 @@ def _to_row(entry: dict) -> dict | None:
     )
 
 
-def _fetch_page(storefront: str, track_id: int, page: int) -> list[dict] | None:
-    url = FEED_URL.format(storefront=storefront, track_id=track_id, page=page)
+def _fetch_page(storefront: str, track_id: int, sort: str, page: int) -> list[dict] | None:
+    url = FEED_URL.format(storefront=storefront, track_id=track_id, sort=sort, page=page)
     resp = requests.get(url, headers={"User-Agent": common.DEFAULT_USER_AGENT}, timeout=15)
     if resp.status_code != 200:
-        print(f"[app_store] WARN: page {page} ({storefront}) returned HTTP {resp.status_code}")
+        print(f"[app_store] WARN: page {page} ({storefront}/{sort}) returned HTTP {resp.status_code}")
         return None
     try:
         data = resp.json()
@@ -66,6 +66,7 @@ def run(cfg: dict, limit: int | None = None) -> int:
     cap = limit if limit is not None else cfg["item_caps"]["app_store"]
     track_id = src_cfg["track_id"]
     max_pages = src_cfg.get("max_pages", 10)
+    sort_orders = src_cfg.get("sort_orders", ["mostRecent"])
 
     existing_ids = common.load_existing_ids(SOURCE)
     total_written = 0
@@ -73,21 +74,24 @@ def run(cfg: dict, limit: int | None = None) -> int:
     for storefront in src_cfg["storefronts"]:
         if total_written >= cap:
             break
-        for page in range(1, max_pages + 1):
+        for sort in sort_orders:
             if total_written >= cap:
                 break
-            entries = _fetch_page(storefront, track_id, page)
-            if entries is None:
-                break  # end of available pages (edge-case 2.1) or a fetch failure
+            for page in range(1, max_pages + 1):
+                if total_written >= cap:
+                    break
+                entries = _fetch_page(storefront, track_id, sort, page)
+                if entries is None:
+                    break  # end of available pages (edge-case 2.1) or a fetch failure
 
-            rows = [r for r in (_to_row(e) for e in entries) if r is not None]
-            fresh = common.filter_new(rows, existing_ids)
-            written = common.append_rows(SOURCE, fresh)
-            existing_ids.update(r["source_id"] for r in fresh)
-            total_written += written
-            print(f"[app_store] {storefront} page {page}: +{written} new (total {total_written}/{cap})")
+                rows = [r for r in (_to_row(e) for e in entries) if r is not None]
+                fresh = common.filter_new(rows, existing_ids)
+                written = common.append_rows(SOURCE, fresh)
+                existing_ids.update(r["source_id"] for r in fresh)
+                total_written += written
+                print(f"[app_store] {storefront}/{sort} page {page}: +{written} new (total {total_written}/{cap})")
 
-            time.sleep(PAGE_DELAY_SECONDS)
+                time.sleep(PAGE_DELAY_SECONDS)
 
     print(f"[app_store] done: {total_written} new rows written")
     return total_written

@@ -14,9 +14,25 @@ sources:
     # https://itunes.apple.com/search?term=myntra&entity=software
     track_id: 907394059
     bundle_id: "com.myntra.Myntra"
-    storefronts: ["in"]
-    # iTunes RSS customer-reviews feed stops returning pages past ~10
-    max_pages: 10
+    # Reviews are isolated per storefront — confirmed live that Myntra has
+    # a real, distinct review pool on every one of these (likely Indian
+    # diaspora reviewing from wherever they live). Excludes om/za/bd, which
+    # returned zero reviews when checked.
+    storefronts: [
+      "in", "us", "gb", "ae", "ca", "au", "sg", "my", "nz", "qa", "sa", "kw",
+      "bh", "ie", "de", "fr", "nl", "ch", "ke", "np", "lk", "pk", "it", "es",
+      "se", "no", "dk", "fi", "jp", "kr",
+    ]
+    # Each sort order draws from an independent pool (confirmed live: page-1
+    # review IDs under mostRecent and mostHelpful don't overlap at all), so
+    # trying both roughly doubles unique coverage — same reasoning as Play
+    # Store's multi-sort_orders list.
+    sort_orders: ["mostRecent", "mostHelpful"]
+    # iTunes RSS customer-reviews feed empirically stops returning pages
+    # around 8-10 per sort order (confirmed live: page 9 consistently
+    # returns empty across repeated runs) — a bit of headroom above that
+    # observed ceiling, not a real expectation of reaching 15.
+    max_pages: 15
 
   reddit:
     user_agent: "discovery-engine:v0.1 (by /u/myntra-discovery-research)"
@@ -30,6 +46,9 @@ sources:
       - shopping
     search_terms:
       - "myntra wishlist"
+      - "myntra wish list"
+      - "myntra save for later"
+      - "myntra saved items"
       - "myntra return"
       - "myntra size"
       - "myntra fit"
@@ -41,12 +60,10 @@ sources:
     # not configured here.
 
   youtube:
-    # Curated seed list of Myntra haul/unboxing/review video URLs.
-    # Best-effort — populate/expand manually; search-result scraping is
-    # deliberately out of scope (fragile, not worth building for this pass).
-    # Each URL below was verified reachable with comments enabled before
-    # being added (a couple of other search hits had comments disabled or
-    # none yet, and were left out).
+    # Official YouTube Data API v3 (see .env.example) — search.list finds
+    # videos by keyword (no robots.txt concern, unlike scraping /results),
+    # commentThreads.list reads public top-level comments. Both lists are
+    # combined and de-duplicated by video id.
     seed_video_urls:
       - "https://www.youtube.com/watch?v=dcWh2RmeFkE"   # Myntra EORS lehenga sale unboxing & review
       - "https://www.youtube.com/watch?v=GzIzu9oemgU"   # Myntra shopping haul
@@ -57,7 +74,16 @@ sources:
       - "https://www.youtube.com/watch?v=SRezH4EEBy8"   # Myntra dress haul
       - "https://www.youtube.com/watch?v=lqJCdc4IuQw"   # Myntra smart casuals haul
       - "https://www.youtube.com/watch?v=qP6KkeHwAbk"   # Myntra summer dresses haul
-    request_delay_seconds: 1
+    search_queries:
+      - "myntra wishlist"
+      - "myntra save for later"
+      - "myntra haul"
+      - "myntra unboxing"
+      - "myntra try on haul"
+      - "myntra review"
+      - "myntra app review"
+      - "myntra shopping vlog"
+    max_videos_per_query: 25
 
   forums:
     # Best-effort, lowest-volume source per architecture.md §3. MouthShut's
@@ -75,9 +101,9 @@ sources:
 # Per-source cap on items collected in a single run.
 item_caps:
   play_store: 500
-  app_store: 500
+  app_store: 20000
   reddit: 500
-  youtube: 500
+  youtube: 20000
   forums: 200
 
 # Cheap pre-filter applied in Stage 2 before spending LLM budget.
@@ -122,33 +148,102 @@ decision_factors:
   - styling
   - social_validation
 
-# Groq model per stage.
+# Groq model per stage. llama-3.1-8b-instant and llama-3.3-70b-versatile
+# were retired from Groq (confirmed live via client.models.list() — both
+# now 404 "does not exist or you do not have access to it"). Replaced with
+# Groq's current GPT-OSS lineup, which are reasoning models — see
+# extract.py/synthesize.py's `reasoning_effort="low"` calls, which keep
+# reasoning-token overhead small and predictable for a structured
+# extraction/classification task that doesn't need heavy reasoning.
+#
+# classification deliberately uses a DIFFERENT model than extraction.
+# Confirmed live: Groq enforces a per-model tokens-per-day (TPD) cap on the
+# on-demand tier — openai/gpt-oss-20b is capped at 200,000 tokens/day, and
+# today's extract.py run alone (153,475 tokens) plus earlier synthesize
+# attempts had already used 199,784/200,000 of it, so classification kept
+# failing every batch regardless of batch size/pacing (that tuning only
+# helps the separate per-minute limit, not a per-day one). gpt-oss-120b
+# tracks its own independent TPD budget and had barely been touched today,
+# so classification uses it instead rather than waiting out 20b's daily
+# reset.
 models:
-  extraction: "llama-3.1-8b-instant"
-  synthesis_labeling: "llama-3.3-70b-versatile"
+  extraction: "openai/gpt-oss-20b"
+  classification: "openai/gpt-oss-120b"
 
-embedding:
-  model: "sentence-transformers/all-MiniLM-L6-v2"
+# Fixed opportunity-area taxonomy, per explicit user decision (they've done
+# their own reading of the corpus and named these 11 themes directly, in
+# place of open-ended HDBSCAN clustering + LLM cluster-naming). Stage 4
+# classifies each extracted reason/blocker/info phrase into exactly one of
+# these ids, or none — a phrase that doesn't clearly match one of these is
+# dropped, not forced into the nearest theme or bucketed as "Other" (see
+# synthesize.py's `_classify_phrases_into_themes`).
+opportunity_themes:
+  - id: price_rise_after_wishlist
+    name: "Price rise after adding to wishlist"
+    category: behavioral
+    description: "An item's price increases after it was added to the wishlist, which reads as a bait to force a quicker purchase and erodes trust in the price shown."
+  - id: pincode_not_serviceable
+    name: "Pincode not serviceable after being added to wishlist"
+    category: behavioral
+    description: "A wishlisted item later shows as undeliverable/not serviceable to the user's pincode or location, blocking purchase even though the item is still listed."
+  - id: out_of_stock_clutter
+    name: "Out-of-stock items clutter the wishlist"
+    category: behavioral
+    description: "Sold-out items stay visible in the wishlist, cluttering it and making it harder to find the items that are actually still purchasable."
+  - id: no_restock_notification
+    name: "No notification when out-of-stock wishlist items are back in stock"
+    category: behavioral
+    description: "Users aren't alerted or notified when a wishlisted item that was out of stock becomes available again, so restocks are missed."
+  - id: wishlist_capacity_limit
+    name: "Wishlist capacity limit (max ~1000 items)"
+    category: behavioral
+    description: "Users hit a cap on how many items the wishlist can hold and are unable to add further items."
+  - id: size_color_not_saved
+    name: "Size/color not saved with wishlist item"
+    category: behavioral
+    description: "The wishlist doesn't remember the specific size/color the user intended when saving an item, so when they return the item may not be available in that size/color."
+  - id: missing_search_sort_filter
+    name: "Missing search and sorting/filter options in the wishlist"
+    category: behavioral
+    description: "The wishlist offers no way to search, sort, or filter saved items, making it hard to navigate as the list grows."
+  - id: login_required_to_wishlist
+    name: "Need to log in in order to add to wishlist"
+    category: behavioral
+    description: "Users must log in or create an account before they can save an item to their wishlist, adding friction to a low-commitment action."
+  - id: wishlist_disappears
+    name: "Wishlist disappears"
+    category: technical
+    description: "Previously saved wishlist items vanish or get cleared unexpectedly — a technical, data-loss problem rather than a deliberate user action."
+  - id: slow_wishlist_loading
+    name: "Slow wishlist loading"
+    category: technical
+    description: "The wishlist page or screen takes a long time to load — a technical performance problem."
+  - id: cart_addition_failure
+    name: "Cart addition failures from wishlist prevent purchase conversion"
+    category: technical
+    description: "Moving or adding a wishlisted item to the cart fails or errors out, directly blocking the wishlist-to-purchase conversion it's meant to support."
 
-clustering:
-  # HDBSCAN over unique phrase embeddings. 3 is deliberately low to produce
-  # any clusters at all from the current small (48-item) verification
-  # sample — raise this (e.g. 8-15) before the full-corpus run, where a
-  # cluster this small would just be noise, not a real theme.
-  min_cluster_size: 3
-  min_samples: 1
-  # Below this many total relevant extracted items, cluster output is
-  # flagged as not yet statistically meaningful (edge-case 9.3).
+synthesis:
+  # Below this many total relevant extracted items, output is flagged as
+  # not yet statistically meaningful (edge-case 9.3).
   min_relevant_items_for_confidence: 200
+  # Mirrors extract.py's proven-reliable tuning (BATCH_SIZE=3,
+  # PACING_SECONDS=15) — the classification task's structured-JSON output
+  # is lighter than full extraction, so this stays comfortably under
+  # openai/gpt-oss-20b's real ~8,000-tokens/minute ceiling (confirmed live
+  # via response headers) whereas the previous, more talkative two-stage
+  # relevance-filter design kept exhausting retries at this same pacing.
+  classification_batch_size: 3
+  classification_pacing_seconds: 15
 
 # Approximate USD per 1M tokens, for the run-log cost estimate only — NOT
 # verified against Groq's live pricing at time of writing. Check
 # https://groq.com/pricing before trusting these numbers for a real budget
 # decision; treat the run log's "estimated cost" as directional, not exact.
 pricing:
-  llama-3.1-8b-instant:
-    input_per_million: 0.05
-    output_per_million: 0.08
-  llama-3.3-70b-versatile:
-    input_per_million: 0.59
-    output_per_million: 0.79
+  openai/gpt-oss-20b:
+    input_per_million: 0.075
+    output_per_million: 0.30
+  openai/gpt-oss-120b:
+    input_per_million: 0.15
+    output_per_million: 0.60

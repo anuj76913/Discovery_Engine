@@ -18,6 +18,9 @@ export default function OpportunityDetailPanel({ area }: Props) {
           <span className="rounded-md bg-primary-container px-2 py-1 text-xs font-extrabold uppercase tracking-wider text-on-primary-container">
             Rank #{area.rank}
           </span>
+          <span className="rounded-md border border-border px-2 py-1 text-xs font-extrabold uppercase tracking-wider text-text-secondary">
+            {area.category === "technical" ? "Technical" : "Behavioral"}
+          </span>
           <span className="text-base text-text-secondary">
             {area.cross_source_validation ? "Confirmed across multiple sources" : "Single source signal"}
           </span>
