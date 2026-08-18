@@ -9,7 +9,7 @@
   "low_sample_warning": false,
   "note": null,
   "methodology": {
-    "taxonomy_size": 9,
+    "taxonomy_size": 8,
     "ranking_formula": "score = mention_count * source_diversity_weight, where source_diversity_weight = distinct_sources_in_theme / distinct_sources_in_corpus",
     "corpus_scope": "Two-stage filter: (1) restricted to items where extraction flagged mentions_wishlist_or_save_for_later — not every purchase-decision-relevant item that was extracted; (2) within those items, individual reason/blocker/info phrases are classified into one of a fixed set of named wishlist opportunity themes (defined by manual review of the corpus, not open-ended clustering) — a phrase that doesn't clearly match one of those themes is dropped rather than forced into the nearest one."
   },
@@ -306,56 +306,6 @@
       "rank": 4
     },
     {
-      "opportunity_area": "Cart addition failures from wishlist prevent purchase conversion",
-      "description": "Moving or adding a wishlisted item to the cart fails or errors out, directly blocking the wishlist-to-purchase conversion it's meant to support.",
-      "category": "technical",
-      "mention_count": 5,
-      "pct_of_relevant_items": 0.0214,
-      "source_breakdown": {
-        "play_store": 5
-      },
-      "segment_breakdown": {},
-      "top_segment_signals": [],
-      "decision_factor_breakdown": {
-        "price": 1
-      },
-      "journey_stage_breakdown": {
-        "abandoned": 4,
-        "saved_not_bought": 1
-      },
-      "cross_source_validation": false,
-      "score": 1.6667,
-      "source_diversity_weight": 0.3333,
-      "sample_quotes": [
-        {
-          "quote": "I have added few products into my cart, and i changed my mind and thought of buying them later.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "Found a bug, while adding my wishlisted item to bag which cost 1700/- (round off) and the same item shows cost 5999/- while checkout from bag",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "After clicking wishlist icon or move to bag option it's taking so much time that it's frustrating.",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "I am unable to add any selected product to my Cart. It is showing error message as \"Oops some thing went wrong \".",
-          "source": "play_store",
-          "url": null
-        },
-        {
-          "quote": "I can't save any product to my wishlist, I can't view images from the reviews, I can't add stuff to my cart.",
-          "source": "play_store",
-          "url": null
-        }
-      ],
-      "rank": 5
-    },
-    {
       "opportunity_area": "No notification when out-of-stock wishlist items are back in stock",
       "description": "Users aren't alerted or notified when a wishlisted item that was out of stock becomes available again, so restocks are missed.",
       "category": "behavioral",
@@ -393,7 +343,7 @@
           "url": null
         }
       ],
-      "rank": 6
+      "rank": 5
     },
     {
       "opportunity_area": "Need to log in in order to add to wishlist",
@@ -425,7 +375,7 @@
           "url": null
         }
       ],
-      "rank": 7
+      "rank": 6
     },
     {
       "opportunity_area": "Pincode not serviceable after being added to wishlist",
@@ -459,7 +409,7 @@
           "url": null
         }
       ],
-      "rank": 8
+      "rank": 7
     },
     {
       "opportunity_area": "Size/color not saved with wishlist item",
@@ -480,7 +430,7 @@
       "score": 0.3333,
       "source_diversity_weight": 0.3333,
       "sample_quotes": [],
-      "rank": 9
+      "rank": 8
     }
   ]
 }

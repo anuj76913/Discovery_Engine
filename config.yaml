@@ -173,10 +173,8 @@ models:
 # Fixed opportunity-area taxonomy, per explicit user decision (they've done
 # their own reading of the corpus and named these themes directly, in
 # place of open-ended HDBSCAN clustering + LLM cluster-naming). Originally
-# 11 themes; wishlist_disappears and slow_wishlist_loading were removed
-# per explicit user decision (edge-case: technical/bug-report content,
-# not really evidence of a wishlist-to-purchase conversion opportunity).
-# Stage 4
+# 11 themes; wishlist_disappears, slow_wishlist_loading, and
+# cart_addition_failure were removed per explicit user decision. Stage 4
 # classifies each extracted reason/blocker/info phrase into exactly one of
 # these ids, or none — a phrase that doesn't clearly match one of these is
 # dropped, not forced into the nearest theme or bucketed as "Other" (see
@@ -214,10 +212,6 @@ opportunity_themes:
     name: "Need to log in in order to add to wishlist"
     category: behavioral
     description: "Users must log in or create an account before they can save an item to their wishlist, adding friction to a low-commitment action."
-  - id: cart_addition_failure
-    name: "Cart addition failures from wishlist prevent purchase conversion"
-    category: technical
-    description: "Moving or adding a wishlisted item to the cart fails or errors out, directly blocking the wishlist-to-purchase conversion it's meant to support."
 
 synthesis:
   # Below this many total relevant extracted items, output is flagged as
