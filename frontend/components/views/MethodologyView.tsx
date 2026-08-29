@@ -102,12 +102,14 @@ export default function MethodologyView({ data }: Props) {
             <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Stat label="Generated" value={formatDateTime(data.generated_at)} />
               <Stat label="Relevant items analyzed" value={formatNumber(data.total_relevant_items)} />
+              <Stat label="Items matching a fixed theme" value={formatNumber(data.total_classified_items)} />
               <Stat label="Sources represented" value={data.sources_represented.map(sourceLabel).join(", ") || "none yet"} />
               <Stat label="Fixed taxonomy size" value={`${data.methodology.taxonomy_size} themes`} />
             </dl>
             <p className="mt-4 border-t border-gridline pt-4 text-base leading-relaxed text-text-secondary">
               {data.methodology.corpus_scope}
             </p>
+            <p className="mt-3 text-base leading-relaxed text-text-secondary">{data.methodology.pct_of_relevant_items_basis}</p>
           </div>
         </section>
 

@@ -30,11 +30,13 @@ export interface Methodology {
   taxonomy_size: number;
   ranking_formula: string;
   corpus_scope: string;
+  pct_of_relevant_items_basis: string;
 }
 
 export interface OpportunityAreasFile {
   generated_at: string;
   total_relevant_items: number;
+  total_classified_items: number;
   sources_represented: string[];
   low_sample_warning: boolean;
   note: string | null;

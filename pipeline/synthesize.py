@@ -297,7 +297,7 @@ def _classify_phrases_into_themes(
 
 # --- per-theme quantification -----------------------------------------------
 
-def _quantify_theme(theme: dict, member_mentions: list[dict], total_relevant_items: int, all_sources: set[str], item_phrase_count: Counter) -> dict:
+def _quantify_theme(theme: dict, member_mentions: list[dict], total_classified_items: int, all_sources: set[str], item_phrase_count: Counter) -> dict:
     by_item: dict[str, dict] = {}
     for m in member_mentions:
         by_item.setdefault(
@@ -350,7 +350,7 @@ def _quantify_theme(theme: dict, member_mentions: list[dict], total_relevant_ite
         "description": theme["description"],
         "category": theme["category"],
         "mention_count": mention_count,
-        "pct_of_relevant_items": round(mention_count / total_relevant_items, 4) if total_relevant_items else 0.0,
+        "pct_of_relevant_items": round(mention_count / total_classified_items, 4) if total_classified_items else 0.0,
         "source_breakdown": source_breakdown,
         "segment_breakdown": dict(segment_breakdown),
         "top_segment_signals": [s for s, _ in segment_breakdown.most_common(5)],
@@ -473,13 +473,30 @@ def run(dry_run: bool = False) -> None:
     # attached to in any given theme.
     item_phrase_count: Counter = Counter(m["item_id"] for m in mentions)
 
+    # Denominator for pct_of_relevant_items. Deliberately NOT
+    # total_relevant_items (the full wishlist-scope corpus, 234 in the
+    # first fixed-taxonomy run) — per explicit user feedback, that made
+    # every area's percentage read as misleadingly small, since most of
+    # that corpus is items whose phrases didn't match any of the current
+    # fixed themes at all (dropped at classification, edge-case 9.2) and
+    # so could never contribute to ANY area's percentage. Scoping to items
+    # that landed in at least one theme makes the percentage answer "of
+    # the items we could actually bucket, how much of this specific
+    # theme is there" instead of being diluted by content this taxonomy
+    # doesn't cover.
+    total_classified_items = len({m["item_id"] for m in mentions})
+    print(
+        f"[synthesize] {total_classified_items}/{total_relevant_items} relevant items had at least one "
+        f"theme-matched phrase — this is the denominator for each area's pct_of_relevant_items"
+    )
+
     themes_by_id = {t["id"]: t for t in themes}
     by_theme: dict[str, list[dict]] = {}
     for m in mentions:
         by_theme.setdefault(m["theme_id"], []).append(m)
 
     quantified = [
-        _quantify_theme(themes_by_id[theme_id], members, total_relevant_items, all_sources, item_phrase_count)
+        _quantify_theme(themes_by_id[theme_id], members, total_classified_items, all_sources, item_phrase_count)
         for theme_id, members in by_theme.items()
     ]
 
@@ -495,13 +512,16 @@ def run(dry_run: bool = False) -> None:
     print(f"[synthesize] {len(quantified)}/{len(themes)} fixed themes found at least one mention")
     print(f"[synthesize] run log: {log_path}")
 
-    _write_output(quantified, total_relevant_items, all_sources, low_sample_warning, len(themes))
+    _write_output(quantified, total_relevant_items, total_classified_items, all_sources, low_sample_warning, len(themes))
 
 
-def _write_output(opportunity_areas: list[dict], total_relevant_items: int, all_sources: set[str], low_sample_warning: bool, theme_count: int) -> None:
+def _write_output(
+    opportunity_areas: list[dict], total_relevant_items: int, total_classified_items: int, all_sources: set[str], low_sample_warning: bool, theme_count: int
+) -> None:
     output = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "total_relevant_items": total_relevant_items,
+        "total_classified_items": total_classified_items,
         "sources_represented": sorted(all_sources),
         "low_sample_warning": low_sample_warning,
         "note": (
@@ -512,6 +532,7 @@ def _write_output(opportunity_areas: list[dict], total_relevant_items: int, all_
             "taxonomy_size": theme_count,
             "ranking_formula": "score = mention_count * source_diversity_weight, where source_diversity_weight = distinct_sources_in_theme / distinct_sources_in_corpus",
             "corpus_scope": "Two-stage filter: (1) restricted to items where extraction flagged mentions_wishlist_or_save_for_later — not every purchase-decision-relevant item that was extracted; (2) within those items, individual reason/blocker/info phrases are classified into one of a fixed set of named wishlist opportunity themes (defined by manual review of the corpus, not open-ended clustering) — a phrase that doesn't clearly match one of those themes is dropped rather than forced into the nearest one.",
+            "pct_of_relevant_items_basis": "Each area's pct_of_relevant_items is mention_count / total_classified_items (items with at least one theme-matched phrase) — NOT / total_relevant_items (the full wishlist-scope corpus). total_relevant_items includes items whose phrases didn't match any current theme, so dividing by it would understate every area's share of the content this taxonomy actually covers.",
         },
         "opportunity_areas": opportunity_areas,
     }
