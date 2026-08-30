@@ -59,6 +59,64 @@ sources:
     # Rate limiting/retries are handled by prawcore internally (PRAW client),
     # not configured here.
 
+  apify_reddit:
+    # Supplements the collector above: PRAW's subreddit.search() is capped
+    # at 100 results/call and restricted to the subreddits list above. This
+    # collector instead runs an Apify actor to search the given terms
+    # across ALL of Reddit (no subreddit whitelist) and can also surface
+    # matching comments, which the submission-only PRAW collector never
+    # sees. It writes to the same data/raw/reddit.jsonl file (source stays
+    # "reddit" — see collectors/common.py's VALID_SOURCES), so rows are
+    # deduped against the PRAW run by Reddit's own post/comment id.
+    #
+    # Actor input schemas change between Apify actor versions — before a
+    # real run, confirm this actor's current input fields in the Apify
+    # Console, or run `python collectors/apify_reddit.py --dry-run` to
+    # print the resolved input without spending credits.
+    actor_id: "trudax/reddit-scraper-lite"
+    type: "posts"
+    # Switched from "new" to "relevance" 2026-08-30: a "new"-sorted 2-term
+    # run ("myntra" + "myntra wishlist") ran out of real, accessible Reddit
+    # results at ~180 items total (finished naturally — "54 requests
+    # succeeded" — well short of the configured cap) and surfaced 0 new
+    # wishlist-relevant rows on a repeat attempt, so raising maxItems
+    # alone can't unlock more content from that query pair. "relevance"
+    # ranks each term's matches by topical fit rather than recency, which
+    # for the newer decision-factor terms below should surface older,
+    # substantive threads that "new" would never page back far enough to
+    # reach.
+    sort: "relevance"
+    # Deliberately real, short (≤2-word) phrases only, never a longer
+    # invented phrasing — confirmed live 2026-08-30 that Reddit's own
+    # search returns zero real posts for most narrower multi-word wishlist
+    # phrasings ("myntra wishlist" was the one exception found), and this
+    # actor's behavior on a zero-match search is to fall back to crawling
+    # unrelated subreddits (observed including NSFW ones) while still
+    # billing per page visited — one 6-term batch of narrow phrases cost
+    # $0.77 for effectively nothing. The terms after "myntra"/"myntra
+    # wishlist" below are borrowed from the reddit.py (PRAW) collector's
+    # own search_terms list — common decision-factor phrases already
+    # judged plausible there — plus a few more of the same shape, to
+    # diversify beyond the two queries that hit their ceiling. Wishlist
+    # *scope* itself is enforced afterward in apify_reddit.py's run() by
+    # requiring one of keyword_prefilter below (the same wishlist/save-
+    # for-later vocabulary extract.py's Stage 2 filters on) in the row
+    # text — so what reaches data/raw/reddit.jsonl is wishlist-specific
+    # regardless of which term surfaced it.
+    search_terms:
+      - "myntra"
+      - "myntra wishlist"
+      - "myntra return"
+      - "myntra size"
+      - "myntra fit"
+      - "myntra review"
+      - "myntra delivery"
+      - "myntra refund"
+      - "myntra exchange"
+      - "myntra order"
+      - "myntra sale"
+      - "myntra quality"
+
   youtube:
     # Official YouTube Data API v3 (see .env.example) — search.list finds
     # videos by keyword (no robots.txt concern, unlike scraping /results),
@@ -103,6 +161,17 @@ item_caps:
   play_store: 500
   app_store: 20000
   reddit: 500
+  # Set back down 2026-08-30 after confirming (twice, at higher caps) that
+  # organic Reddit content specifically mentioning Myntra wishlist/save-
+  # for-later behavior is close to exhausted at the current search_terms —
+  # a 2600 cap and later a 1000 cap both self-terminated early (180 and
+  # 215 items respectively) with zero new wishlist-relevant rows found.
+  # Explicit user decision: stop spending further on this source and keep
+  # the 42 rows already collected. This cap is intentionally left just
+  # above that observed ceiling (~$0.0042/item, so ~$1 worst case) rather
+  # than restored to a large number, so a future `run_all.py` invocation
+  # doesn't unknowingly re-trigger a large paid pass.
+  apify_reddit: 250
   youtube: 20000
   forums: 200
 
@@ -178,10 +247,19 @@ models:
 # dropped, not forced into the nearest theme or bucketed as "Other" (see
 # synthesize.py's `_classify_phrases_into_themes`).
 opportunity_themes:
+  # Broadened 2026-08-30 per explicit user decision: the original
+  # description only matched a literal "price went UP because I
+  # wishlisted it" claim, which is a specific, rare accusation. Real
+  # corpus content (esp. Reddit, which skews toward general shopping
+  # narrative rather than narrow bug reports) much more often expresses
+  # the same underlying frustration as "a sale/discount I expected on a
+  # wishlisted item never happened" — a different sentence shape, same
+  # broken-price-expectation problem. id/name kept stable so this reads
+  # as a scope widening, not a new theme.
   - id: price_rise_after_wishlist
-    name: "Price rise after adding to wishlist"
+    name: "Price rise or no discount on wishlisted items"
     category: behavioral
-    description: "An item's price increases after it was added to the wishlist, which reads as a bait to force a quicker purchase and erodes trust in the price shown."
+    description: "An item's price increases after it was added to the wishlist, OR a sale/discount the user expected on a wishlisted or saved-for-later item never materializes. Both read as a broken price expectation that erodes trust in the price shown — not just the literal price-increase case."
   - id: pincode_not_serviceable
     name: "Pincode not serviceable after being added to wishlist"
     category: behavioral
@@ -198,10 +276,17 @@ opportunity_themes:
     name: "Wishlist capacity limit (max ~1000 items)"
     category: behavioral
     description: "Users hit a cap on how many items the wishlist can hold and are unable to add further items."
+  # Broadened 2026-08-30 per explicit user decision: the original
+  # description only matched the specific wishlist-mechanic failure (it
+  # forgot a chosen size/color). Real corpus content much more often
+  # expresses general fit/sizing/fabric-quality uncertainty about an item
+  # someone has wishlisted or is deciding whether to buy — a related but
+  # distinct signal that still blocks confident wishlist-to-purchase
+  # conversion. id/name kept stable so this reads as a scope widening.
   - id: size_color_not_saved
-    name: "Size/color not saved with wishlist item"
+    name: "Size/color/fit uncertainty for wishlisted items"
     category: behavioral
-    description: "The wishlist doesn't remember the specific size/color the user intended when saving an item, so when they return the item may not be available in that size/color."
+    description: "The wishlist doesn't remember the specific size/color the user intended when saving an item, OR the user expresses broader uncertainty or inconsistency about sizing, fit, or fabric quality for an item they've wishlisted or are deciding whether to purchase — both block confidently completing the purchase of a saved item."
   - id: missing_search_sort_filter
     name: "Missing search and sorting/filter options in the wishlist"
     category: behavioral

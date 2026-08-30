@@ -1,4 +1,4 @@
-"""Entrypoint that runs all five collectors in sequence. A failure in one
+"""Entrypoint that runs all collectors in sequence. A failure in one
 source is isolated and logged, never aborts the others (architecture.md
 §3, implementation-plan.md Phase 1).
 """
@@ -13,6 +13,7 @@ import common
 import play_store
 import app_store
 import reddit
+import apify_reddit
 import youtube
 import forums
 
@@ -20,6 +21,7 @@ COLLECTORS = [
     ("play_store", play_store.run),
     ("app_store", app_store.run),
     ("reddit", reddit.run),
+    ("apify_reddit", apify_reddit.run),
     ("youtube", youtube.run),
     ("forums", forums.run),
 ]
